@@ -1,0 +1,6 @@
+bin/
+obj/
+packages/
+.vs/
+Build/
+App_Data/
