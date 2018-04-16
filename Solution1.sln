@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hawk.Example", "Hawk.Example\Hawk.Example.csproj", "{B8E35608-D097-4E09-B8E5-BBE485260F36}"
 EndProject
@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{D7383D
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hawk.Demo", "Hawk.Demo\Hawk.Demo.csproj", "{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{4D9B9681-82B2-4FC4-9FA9-7C9B4FEA25ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D9B9681-82B2-4FC4-9FA9-7C9B4FEA25ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D9B9681-82B2-4FC4-9FA9-7C9B4FEA25ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
