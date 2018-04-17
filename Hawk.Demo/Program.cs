@@ -10,6 +10,8 @@ using System.Configuration;
 using Newtonsoft.Json;
 using log4net;
 using log4net.Repository;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Hawk.Demo
@@ -31,6 +33,15 @@ namespace Hawk.Demo
         }
         static void Main(string[] args)
         {
+            var conf = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+
+            AppSettings settings = new AppSettings(conf);
+
+          
+
            ILoggerRepository repository = LogManager.CreateRepository("NETCoreRepository");
             // 默认简单配置，输出至控制台
             log4net.Config.BasicConfigurator.Configure(repository);
@@ -103,6 +114,18 @@ LEFT JOIN menu c on a.MenuId = c.Id WHERE RoleId IN
                 }
             }
             return pp;
+        }
+    }
+
+    public class AppSettings
+    {
+        static string section = "AppSettings";
+
+        private readonly string ConnString;
+
+        public AppSettings(IConfiguration config)
+        {
+            ConnString = config.GetSection(section)["connString"];
         }
     }
 
