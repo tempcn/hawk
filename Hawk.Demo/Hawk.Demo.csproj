@@ -5,4 +5,17 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="dapper" Version="1.50.4" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="mysql.data" Version="6.10.6" />
+    <PackageReference Include="newtonsoft.json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
