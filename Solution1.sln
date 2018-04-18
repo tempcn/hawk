@@ -20,7 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{D7383D
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hawk.Demo", "Hawk.Demo\Hawk.Demo.csproj", "{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hawk.Demo", "Hawk.Demo\Hawk.Demo.csproj", "{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hawk.DemoMvc", "Hawk.DemoMvc\Hawk.DemoMvc.csproj", "{7657A675-69B6-45AA-BA19-0357E6976416}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACC3376E-EBF6-4A7B-9CFC-DFD035DFFAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7657A675-69B6-45AA-BA19-0357E6976416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7657A675-69B6-45AA-BA19-0357E6976416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7657A675-69B6-45AA-BA19-0357E6976416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7657A675-69B6-45AA-BA19-0357E6976416}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

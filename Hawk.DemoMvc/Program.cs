@@ -7,9 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration.Json;
 
-namespace Hawk.Example
+namespace Hawk.DemoMvc
 {
     public class Program
     {
@@ -20,7 +19,7 @@ namespace Hawk.Example
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()              
+                .UseStartup<Startup>()
                 .Build();
     }
 }
