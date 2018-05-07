@@ -164,11 +164,11 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\aspnet-redis-providers\RedisOutputCacheProvider\RedisOutputCacheProvider.csproj">
+    <ProjectReference Include="..\..\aspnet-redis-providers\RedisOutputCacheProvider\RedisOutputCacheProvider.csproj">
       <Project>{4d9b9681-82b2-4fc4-9fa9-7c9b4fea25ed}</Project>
       <Name>RedisOutputCacheProvider</Name>
     </ProjectReference>
-    <ProjectReference Include="..\aspnet-redis-providers\RedisSessionStateProvider\RedisSessionStateProvider.csproj">
+    <ProjectReference Include="..\..\aspnet-redis-providers\RedisSessionStateProvider\RedisSessionStateProvider.csproj">
       <Project>{b2b31f49-c3b0-47c6-b93b-aca2cf6f1648}</Project>
       <Name>RedisSessionStateProvider</Name>
     </ProjectReference>

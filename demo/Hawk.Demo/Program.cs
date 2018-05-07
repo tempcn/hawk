@@ -71,7 +71,7 @@ LEFT JOIN menu c on a.MenuId = c.Id WHERE RoleId IN
             {
                 var menuName = item.MenuName;//.ToLower();//转换为小写
 
-                IList<Permission> pp = GetPermission(item.Privilege);
+                IList<Operate> pp = GetPermission(item.Privilege);
 
                 //var dd = pp.Sum(x => (int)x);
 
@@ -99,9 +99,9 @@ LEFT JOIN menu c on a.MenuId = c.Id WHERE RoleId IN
 
         }
 
-        public static IList<Permission> GetPermission(string p)
+        public static IList<Operate> GetPermission(string p)
         {
-            IList<Permission> pp = new List<Permission>();
+            IList<Operate> pp = new List<Operate>();
 
             if (!string.IsNullOrEmpty(p))
             {
@@ -109,8 +109,8 @@ LEFT JOIN menu c on a.MenuId = c.Id WHERE RoleId IN
                 foreach (var item in s)
                 {
                     if (int.TryParse(item, out i))
-                        if (!pp.Contains((Permission)i))
-                            pp.Add((Permission)i);
+                        if (!pp.Contains((Operate)i))
+                            pp.Add((Operate)i);
                 }
             }
             return pp;
@@ -164,7 +164,8 @@ LEFT JOIN menu c on a.MenuId = c.Id WHERE RoleId IN
 
         public class UserRole
         {
-            public int RoleId { get; set; }
+        public int UserId { get; set; }
+        public int RoleId { get; set; }
             public int MenuId { get; set; }
             public int Power { get; set; }
             public string Privilege { get; set; }
@@ -186,7 +187,7 @@ LEFT JOIN menu c on a.MenuId = c.Id WHERE RoleId IN
         {
             public string MenuName { get; set; }
             public int Power { get; set; }
-            public IEnumerable<Permission> Permission { get; set; }
+            public IEnumerable<Operate> Permission { get; set; }
         }
 
         public class Role
@@ -216,7 +217,7 @@ LEFT JOIN menu c on a.MenuId = c.Id WHERE RoleId IN
         }
 
 
-        public enum Permission
+        public enum Operate
         {
             Not = 0,
             Add = 1,
