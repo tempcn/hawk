@@ -55,7 +55,7 @@ namespace Hawk.Common
         #region Hash散列
 
         public static string Hash(this string s, HashName hashName = HashName.MD5, Encoding encode = null, bool upper = false)
-        {
+        {            
             char[] c = s.ToCharArray(0, s.Length);
             byte[] inputBuffer = (encode != null ? encode : Encoding.UTF8).GetBytes(c, 0, c.Length);
             byte[] hashBytes = HashAlgorithm.Create(Enum.GetName(typeof(HashName), hashName)).ComputeHash(inputBuffer, 0, inputBuffer.Length);
