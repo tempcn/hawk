@@ -4,19 +4,28 @@ namespace Hawk
 {
     public static class DateTimeHelper
     {
+        internal const string DATE_FULL_STRING = "yyyyMMddHHmmssfff";
+
+        internal const string DATE_STRING = "yyyy-MM-dd HH:mm:ss";
+
+        internal const string DATE_SHORT_STRING = "yyyy-MM-dd";
+
+        internal static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+
         /// <summary>
         /// 格式化为{yyyyMMddHHmmssfff}
         /// </summary>
         /// <returns></returns>
         public static string ToFullString(this DateTime dateTime)
-        => dateTime.ToString(Field.DATE_FULL_STRING);
+        => dateTime.ToString(DATE_FULL_STRING);
 
         /// <summary>
         /// 格式化为{yyyy-MM-dd HH:mm:ss}
         /// </summary>
         /// <returns></returns>
         public static string ToDateString(this DateTime dateTime)
-        => dateTime.ToString(Field.DATE_STRING);
+        => dateTime.ToString(DATE_STRING);
 
 
         /// <summary>
@@ -24,7 +33,7 @@ namespace Hawk
         /// </summary>
         /// <returns></returns>
         public static string ToShortString(this DateTime dateTime)
-        => dateTime.ToString(Field.DATE_SHORT_STRING);
+        => dateTime.ToString(DATE_SHORT_STRING);
 
         /// <summary>
         ///  返回unix时间戳
@@ -49,6 +58,6 @@ namespace Hawk
         }
 
         public static DateTime ToDate(this int timestamp)
-            => (Field.EPOCH + TimeSpan.FromSeconds(timestamp)).ToLocalTime();
+            => (EPOCH + TimeSpan.FromSeconds(timestamp)).ToLocalTime();
     }
 }

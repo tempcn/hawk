@@ -13,22 +13,26 @@ namespace ConsoleApp1
             DateTime dt = DateTime.Now;
             Console.WriteLine(dt.ToDateString());
 
-            //string s = "亵仙,鏖仙,芸仙";
-            string s1 = "䨲颥";
+
+            ////string s = "亵仙,鏖仙,芸仙";
+            string s1 = "啊ㄗㄘ朱镕基䨲颥>? &*№☆★";
+            s1 = "其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示其实把代码复制出来之后，感觉也不是那么难懂，都是一些基本的指示";
 
             Console.WriteLine(s1);
             Console.WriteLine(Spell.GetInitial(s1));
             Console.WriteLine(Spell.Get(s1));
-            Console.WriteLine(Spell.Get(s1,"#"));
+            Console.WriteLine(Spell.Get(s1, "#"));
 
-            Console.WriteLine(Spell.SpellMusicCode.Length);
-            Console.WriteLine(Spell.SpellCodeIndex.Length);
-            Console.WriteLine(Spell.Chinese.Length);
-            Console.WriteLine(Spell.SpellCodeIndex.GetLength(0));
-            Console.WriteLine(Spell.SpellCodeIndex.GetLength(1));
 
-            string py = "jiong";
-            Console.WriteLine(Spell.GetChineseTxt(py));
+
+            //Console.WriteLine(Spell.SpellMusicCode.Length);
+            //Console.WriteLine(Spell.SpellCodeIndex.Length);
+            //Console.WriteLine(Spell.Chinese.Length);
+            //Console.WriteLine(Spell.SpellCodeIndex.GetLength(0));
+            //Console.WriteLine(Spell.SpellCodeIndex.GetLength(1));
+
+            //string py = "jiong";
+            //Console.WriteLine(Spell.GetChineseTxt(py));
 
             //Console.WriteLine(Spell.GetFirst(s1));
             //Console.WriteLine(Spell.GetFirstOne(s1));
@@ -45,37 +49,37 @@ namespace ConsoleApp1
 
 
 
-  
+
 
             //Console.WriteLine(Hawk.Common.PyCode.codes.Length);
             //Console.WriteLine(PyHash.hashes[0].Length);
 
-            Xdf xdf = new Xdf();
+            //Xdf xdf = new Xdf();
 
-            Console.WriteLine(xdf.Inti);
-            Console.WriteLine(xdf.Strings);
-            Console.WriteLine(xdf.DateTimed);
-            Console.WriteLine(xdf.DateTimeOffsetd);
-            Console.WriteLine(xdf.TimeSpant);
-            Console.WriteLine(xdf.Floats);
-            Console.WriteLine(xdf.Doubled);
+            //Console.WriteLine(xdf.Inti);
+            //Console.WriteLine(xdf.Strings);
+            //Console.WriteLine(xdf.DateTimed);
+            //Console.WriteLine(xdf.DateTimeOffsetd);
+            //Console.WriteLine(xdf.TimeSpant);
+            //Console.WriteLine(xdf.Floats);
+            //Console.WriteLine(xdf.Doubled);
 
-            xdf.DateTimed = DateTime.MinValue;
-            xdf.DateTimeOffsetd = DateTimeOffset.MinValue;
-            xdf.TimeSpant = TimeSpan.MinValue;         
-            Console.WriteLine(xdf.DateTimed);
-            Console.WriteLine(xdf.DateTimeOffsetd);
-            Console.WriteLine(xdf.TimeSpant);
+            //xdf.DateTimed = DateTime.MinValue;
+            //xdf.DateTimeOffsetd = DateTimeOffset.MinValue;
+            //xdf.TimeSpant = TimeSpan.MinValue;         
+            //Console.WriteLine(xdf.DateTimed);
+            //Console.WriteLine(xdf.DateTimeOffsetd);
+            //Console.WriteLine(xdf.TimeSpant);
 
-            xdf.DateTimed = DateTime.MaxValue;
-            xdf.DateTimeOffsetd = DateTimeOffset.MaxValue;
-            xdf.TimeSpant = TimeSpan.MaxValue;
-            Console.WriteLine(xdf.DateTimed);
-            Console.WriteLine(xdf.DateTimeOffsetd);
-            Console.WriteLine(xdf.TimeSpant);
+            //xdf.DateTimed = DateTime.MaxValue;
+            //xdf.DateTimeOffsetd = DateTimeOffset.MaxValue;
+            //xdf.TimeSpant = TimeSpan.MaxValue;
+            //Console.WriteLine(xdf.DateTimed);
+            //Console.WriteLine(xdf.DateTimeOffsetd);
+            //Console.WriteLine(xdf.TimeSpant);
 
-            xdf.TimeSpant = TimeSpan.Zero;
-            Console.WriteLine(xdf.TimeSpant);
+            //xdf.TimeSpant = TimeSpan.Zero;
+            //Console.WriteLine(xdf.TimeSpant);
         }
     }
 

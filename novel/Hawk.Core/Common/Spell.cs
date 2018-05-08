@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 
@@ -7,26 +8,46 @@ namespace Hawk.Common
 {
     public class Spell
     {
+        static IDictionary<string, string> dictionary = new Dictionary<string, string>();
+
+        static void Set(string key, string value)
+        {
+            if (!dictionary.ContainsKey(key))
+                dictionary[key] = value;
+        }
+
+        static string GetCache(string key)
+        {
+            return dictionary[key];
+        }
+
         static string Get(char ch)
         {
+            var s = ch.ToString();
+
+            if (dictionary.ContainsKey(s))
+                return GetCache(s);
             // 拉丁字符            
-            if (ch <= '\x00FF') return ch.ToString();
+            if (ch <= '\x00FF') return s;
 
             // 标点符号、分隔符            
-            if (Char.IsPunctuation(ch) || Char.IsSeparator(ch)) return ch.ToString();
+            if (Char.IsPunctuation(ch) || Char.IsSeparator(ch)) return s;
 
             //// 非中文字符            
             //if (ch < '\x4E00' || ch > '\x9FA5') return ch.ToString();
 
-            byte[] local = encode.GetBytes(ch.ToString());
+            byte[] local = encode.GetBytes(s);
             // 是否为GBK 字符
             if (local.Length > 1 && local[0] >= 129 && local[1] >= 64)
             {
                 int index = SpellCodeIndex[local[0] - 129, local[1] - 64] - 1;
-                if (index != 0)
+                if (index >= 0)
+                {
+                    Set(s, SpellMusicCode[index]);
                     return SpellMusicCode[index];
+                }
             }
-            return ch.ToString();
+            return s;
         }
 
         /// <summary>

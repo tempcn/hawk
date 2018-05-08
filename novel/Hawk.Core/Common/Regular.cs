@@ -5,41 +5,16 @@ namespace Hawk.Common
 {
     public static class Regular
     {
-        /// <summary>
-        /// 用户名格式,以字母开头.
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="minL"></param>
-        /// <param name="maxL"></param>
-        /// <returns></returns>
-        public static bool IsName(this string s, int minL = 5, int maxL = 17)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                //\w字母数字包括下划线
-                string pattern = string.Concat("^[a-zA-Z][0-9a-zA-Z]{", minL, ",", maxL, "}$");
-                //string pattern = string.Concat("^([a-z]|[A-Z])+[0-9a-zA-Z_]{5,17}$";//6-18位
-                return Regex.IsMatch(s, pattern, RegexOptions.None);
-            }
-            return false;
-        }
+        static bool IsRegular(string s, string pattern)
+         => string.IsNullOrEmpty(s) ? false : Regex.IsMatch(s, pattern, RegexOptions.None);
 
         /// <summary>
-        /// 密码格式是否正确
+        /// 字符串是否符合Base64编码
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static bool IsPassword(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                //\x27='
-                //!"#$%&()*+,-./0-9:;<=>?@A-Z[\}^_`a-z{|}~
-                string pattern = "^[\x21-\x26\x28-\x7E]{6,18}$";// "^[a-zA-Z0-9~!@#$%^&*()_+-=,.\"]{8,18}$";
-                return Regex.IsMatch(s, pattern, RegexOptions.None);
-            }
-            return false;
-        }
+        public static bool IsBase64(this string s)
+            => IsRegular(s, "^[a-zA-Z0-9+/]+[=]{0,2}$");
 
         /// <summary>
         /// 检测是否符合email格式
@@ -47,27 +22,7 @@ namespace Hawk.Common
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsEmail(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                return Regex.IsMatch(s, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", RegexOptions.None);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 是否正确的邮政编码
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static bool IsPost(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                return Regex.IsMatch(s, @"^\d{6}$", RegexOptions.None);
-            }
-            return false;
-        }
+             => IsRegular(s, @"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
 
         /// <summary>
         ///  检测是否符合移动电话格式
@@ -75,13 +30,7 @@ namespace Hawk.Common
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsMobile(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                return Regex.IsMatch(s, @"^0?(13|14|15|17|18)\d{9}$", RegexOptions.None);
-            }
-            return false;
-        }
+                => IsRegular(s, @"^0?(13|14|15|17|18)\d{9}$");
 
         /// <summary>
         /// 是否全是字母数字
@@ -89,25 +38,15 @@ namespace Hawk.Common
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsAlphanumeric(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-                return Regex.IsMatch(s, "^\\w+$");
-            return false;
-        }
+             => IsRegular(s, "^\\w+$");
 
         /// <summary>
-        /// 检测是否全部为中文
+        /// 检测是否全部为中文,范围:[\u4e00-\u9fa5]
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsSimplifiedChinese(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                return Regex.IsMatch(s, @"^[\u4e00-\u9fa5]+$", RegexOptions.None);
-            }
-            return false;
-        }
+             => IsRegular(s, @"^[\u4e00-\u9fa5]+$");
 
         /// <summary>
         /// 自然数(大于等于0的整数)
@@ -115,13 +54,7 @@ namespace Hawk.Common
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsNatural(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                return Regex.IsMatch(s, @"^(0|([1-9]\d*)){1}$", RegexOptions.None);
-            }
-            return false;
-        }
+            => IsRegular(s, @"^(0|([1-9]\d*)){1}$");
 
         /// <summary>
         /// 符合正小数格式
@@ -129,14 +62,15 @@ namespace Hawk.Common
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsDec(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                //^(0|([1-9]\d*))(\.\d{1,2})?$  小数点后2位
-                return Regex.IsMatch(s, @"^(0|([1-9]\d*))(\.\d+)?$", RegexOptions.None);
-            }
-            return false;
-        }
+               => IsRegular(s, @"^(0|([1-9]\d*))(\.\d+)?$");
+        //{
+        //    if (!string.IsNullOrEmpty(s))
+        //    {
+        //        //^(0|([1-9]\d*))(\.\d{1,2})?$  小数点后2位
+        //        return Regex.IsMatch(s, @"^(0|([1-9]\d*))(\.\d+)?$", RegexOptions.None);
+        //    }
+        //    return false;
+        //}
 
         /// <summary>
         /// 整数
@@ -144,14 +78,7 @@ namespace Hawk.Common
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsInteger(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                string pattern = @"^(-)?(0|([1-9]\d*))$";
-                return Regex.IsMatch(s, pattern, RegexOptions.None);
-            }
-            return false;
-        }
+            => IsRegular(s, @"^(-)?(0|([1-9]\d*))$");
 
         /// <summary>
         /// 是否正确的ipv4地址
@@ -159,13 +86,73 @@ namespace Hawk.Common
         /// <param name="s"></param>
         /// <returns></returns>
         public static bool IsIpv4(this string s)
+              => IsRegular(s, @"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$");
+
+        /// <summary>
+        /// 符合固定电话格式(区号与号码可以用-分开)
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static bool IsTel(this string s)
+            => IsRegular(s, @"^0(\d{2}[-]?\d{8}|\d{3}[-]?(\d{7}|\d{8}))$");
+
+        /// <summary>
+        /// 判断字符串是否符合十六进数制格式
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsHex(this string s)
+            => IsRegular(s, "^[a-fA-F0-9]+$");
+
+        /// <summary>
+        /// 检测相对于Sql语句是否安全
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public static bool IsSafeSqlStr(this string s, string pattern = @"[-|%|@|\*|!|\']")
+            => string.IsNullOrEmpty(s) ? false : !Regex.IsMatch(s, pattern, RegexOptions.None);
+
+        /// <summary>
+        /// 格式:97851AB3-53C1-4C3F-98E6-384B53372C2C
+        /// </summary>
+        /// <param name="flag">是否带分割符</param>
+        /// <returns></returns>
+        public static bool IsGuid(this string s, bool flag = false)
+            => IsRegular(s, flag ? @"^[a-f0-9A-F]{8}[\-]{1}([a-f0-9A-F]{4}[\-]{1}){3}[a-f0-9A-F]{12}$":
+                "^[a-fA-F0-9]{32}$");
+        //        //\w字母数字包括下划线
+        //        //^[\w]{8}[\-]{1}([\w]{4}[\-]{1}){3}[\w]{12}$ 
+
+        /// <summary>
+        /// 纯字母数字组成,首字母
+        /// </summary>
+        /// <param name="minL">最少位取值</param>
+        /// <param name="maxL">最多位(如果小于最少位,则不取值)</param>
+        /// <returns></returns>
+        public static bool IsName(this string s, int minL = 2, int maxL = 0)
         {
-            if (!string.IsNullOrEmpty(s))
+            var pattern = "^[a-zA-Z][0-9a-zA-Z]{";
+            if (minL < 2)
+                minL = 2;
+            //pattern += (minL - 1).ToString();
+            if (maxL <= minL)
+                pattern = string.Concat(pattern, (minL - 1).ToString(), ",}$");
+            else
             {
-                return Regex.IsMatch(s, @"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$", RegexOptions.None);
+                pattern = string.Concat(pattern, (minL - 1).ToString(), ",", (maxL - 1).ToString(), "}$");
             }
-            return false;
+            return IsRegular(s, pattern);
         }
+          //  => IsRegular(s, string.Concat("^[a-zA-Z][0-9a-zA-Z]{", minL, ",", maxL, "}$"));
+        //{
+        //    if (!string.IsNullOrEmpty(s))
+        //    {
+        //        //\w字母数字包括下划线
+        //        string pattern = string.Concat("^[a-zA-Z][0-9a-zA-Z]{", minL, ",", maxL, "}$");
+        //        //string pattern = string.Concat("^([a-z]|[A-Z])+[0-9a-zA-Z_]{5,17}$";//6-18位
+        //        return Regex.IsMatch(s, pattern, RegexOptions.None);
+        //    }
+        //    return false;
+        //}        
 
         /// <summary>
         /// 未验证
@@ -186,50 +173,6 @@ namespace Hawk.Common
         }
 
         /// <summary>
-        /// 判断字符串是否符合十六进数制格式
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static bool IsHex(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                string pattern = "^[a-fA-F0-9]+$";
-                //System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern, System.Text.RegularExpressions.RegexOptions.None);
-                //return regex.IsMatch(str, 0);
-                return Regex.IsMatch(s, pattern, RegexOptions.None);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 符合固定电话格式(区号与号码可以用-分开)
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static bool IsTel(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                return Regex.IsMatch(s, Field.TEL_PATTERN);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 检测相对于Sql语句是否安全
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static bool IsSafeSqlStr(this string s)
-        {
-            if (!string.IsNullOrEmpty(s))
-                //return !Regex.IsMatch(s, @"[-|;|,|\/|\(|\)|\[|\]|\}|\{|%|@|\*|!|\']");
-                return !Regex.IsMatch(s, @"[-|%|@|\*|!|\']");
-            return false;
-        }
-
-        /// <summary>
         /// 验证15或18位身份证号码
         /// </summary>
         /// <param name="s"></param>
@@ -242,7 +185,7 @@ namespace Hawk.Common
             if (!string.IsNullOrEmpty(s))
             {
                 // string pattern = @"(^\d{15}$)|(^\d{17}([0-9]|[X|x])$)";//15或18位//@"^\d{17}([0-9]|[X|x])$"; 
-                if (Regex.IsMatch(s, Field.ID_CARD_PATTERN))
+                if (Regex.IsMatch(s, @"(^\d{ 15}$)| (^\d{ 17} ([0 - 9] |[X | x])$)"))
                 {
                     s = s.ToUpper();
                     int[] arrInt = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
@@ -287,26 +230,6 @@ namespace Hawk.Common
                 }
             }
             return flag;
-        }
-
-        /// <summary>
-        /// 格式:97851AB3-53C1-4C3F-98E6-384B53372C2C
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="flag">是否带分割符</param>
-        /// <returns></returns>
-        public static bool IsGuid(this string s, bool flag = false)
-        {
-            if (!string.IsNullOrEmpty(s))
-            {
-                //\w字母数字包括下划线
-                //^[\w]{8}[\-]{1}([\w]{4}[\-]{1}){3}[\w]{12}$ 
-                string pattern = "^[a-fA-F0-9]{32}$";
-                if (flag)
-                    pattern = @"^[a-f0-9A-F]{8}[\-]{1}([a-f0-9A-F]{4}[\-]{1}){3}[a-f0-9A-F]{12}$";
-                return Regex.IsMatch(s, pattern);
-            }
-            return false;
         }
 
         public static string Capture(this string s, int len, string padding = "...")

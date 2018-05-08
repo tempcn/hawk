@@ -295,7 +295,7 @@ namespace Hawk.Common
 
         #region 加密算法KEY，IV验证
 
-        public static int[] ValidKeyLength(Algorithm algName)
+         static int[] ValidKeyLength(Algorithm algName)
         {
             int[] len = new int[2];
             switch (algName)
@@ -447,116 +447,116 @@ namespace Hawk.Common
         #endregion
         #endregion
 
-        #region 实现Base64编码转换
-        /// <summary>
-        /// 字节数组加密为Base64编码的字符串
-        /// </summary>
-        /// <param name="inByte"></param>
-        /// <returns></returns>
-        public static string BytesToBase64(byte[] inByte)
-        {
-            try
-            {
-                return Convert.ToBase64String(inByte, 0, inByte.Length, Base64FormattingOptions.None);
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
+        //#region 实现Base64编码转换
+        ///// <summary>
+        ///// 字节数组加密为Base64编码的字符串
+        ///// </summary>
+        ///// <param name="inByte"></param>
+        ///// <returns></returns>
+        //public static string BytesToBase64(byte[] inByte)
+        //{
+        //    try
+        //    {
+        //        return Convert.ToBase64String(inByte, 0, inByte.Length, Base64FormattingOptions.None);
+        //    }
+        //    catch
+        //    {
+        //        return string.Empty;
+        //    }
+        //}
 
-        /// <summary>
-        /// 将字符串转换成Base64编码的字符串
-        /// </summary>
-        /// <param name="s">要转换的字符串</param>
-        /// <param name="encode">编码</param>
-        /// <returns></returns>
-        public static string StringToBase64(string s, Encoding encode)
-        {
-            if (!string.IsNullOrWhiteSpace(s))
-            {
-                byte[] b = encode.GetBytes(s);
-                return BytesToBase64(b);
-            }
-            return string.Empty;
-        }
+        ///// <summary>
+        ///// 将字符串转换成Base64编码的字符串
+        ///// </summary>
+        ///// <param name="s">要转换的字符串</param>
+        ///// <param name="encode">编码</param>
+        ///// <returns></returns>
+        //public static string StringToBase64(string s, Encoding encode)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(s))
+        //    {
+        //        byte[] b = encode.GetBytes(s);
+        //        return BytesToBase64(b);
+        //    }
+        //    return string.Empty;
+        //}
 
-        public static string StringToBase64(string s)
-        {
-            return StringToBase64(s, Encoding.UTF8);
-        }
+        //public static string StringToBase64(string s)
+        //{
+        //    return StringToBase64(s, Encoding.UTF8);
+        //}
 
-        /// <summary>
-        /// 将Base64编码的字符串转换为字节数组
-        /// </summary>
-        /// <param name="s">要转换的Base64编码的字符串</param>
-        /// <param name="encode"></param>
-        /// <returns></returns>
-        public static byte[] Base64ToBytes(string s)
-        {
-            byte[] resultByte = null;// encoding.GetBytes("字符串格式无效");
-            if ((!string.IsNullOrWhiteSpace(s)) && s.Length % 4 == 0 && CheckBase64(s))
-            {
-                //               try
-                //                {
-                resultByte = Convert.FromBase64String(s);
-                //                }
-                //#if DEBUG
-                //                catch (Exception ex)
-                //                {
-                //                    resultByte = Encoding.UTF8.GetBytes(ex.Message);
-                //                }
-                //#else
-                //                catch { }
-                //#endif
-            }
-            return resultByte;
-        }
+        ///// <summary>
+        ///// 将Base64编码的字符串转换为字节数组
+        ///// </summary>
+        ///// <param name="s">要转换的Base64编码的字符串</param>
+        ///// <param name="encode"></param>
+        ///// <returns></returns>
+        //public static byte[] Base64ToBytes(string s)
+        //{
+        //    byte[] resultByte = null;// encoding.GetBytes("字符串格式无效");
+        //    if ((!string.IsNullOrWhiteSpace(s)) && s.Length % 4 == 0 && CheckBase64(s))
+        //    {
+        //        //               try
+        //        //                {
+        //        resultByte = Convert.FromBase64String(s);
+        //        //                }
+        //        //#if DEBUG
+        //        //                catch (Exception ex)
+        //        //                {
+        //        //                    resultByte = Encoding.UTF8.GetBytes(ex.Message);
+        //        //                }
+        //        //#else
+        //        //                catch { }
+        //        //#endif
+        //    }
+        //    return resultByte;
+        //}
 
-        /// <summary>
-        /// 将Base64编码的字符串转换成其它编码的字符串
-        /// </summary>
-        /// <param name="s">要转换的Base64编码的字符串</param>
-        /// <param name="encode">编码,要与Base64编码格式一致</param>
-        /// <returns></returns>
-        public static string Base64ToString(string s, Encoding encode)
-        {
-            byte[] outByte = Base64ToBytes(s);
+        ///// <summary>
+        ///// 将Base64编码的字符串转换成其它编码的字符串
+        ///// </summary>
+        ///// <param name="s">要转换的Base64编码的字符串</param>
+        ///// <param name="encode">编码,要与Base64编码格式一致</param>
+        ///// <returns></returns>
+        //public static string Base64ToString(string s, Encoding encode)
+        //{
+        //    byte[] outByte = Base64ToBytes(s);
 
-            if (outByte != null)
-                return encode.GetString(outByte, 0, outByte.Length);
-            return "字符串格式无效";//string.Empty;
-        }
+        //    if (outByte != null)
+        //        return encode.GetString(outByte, 0, outByte.Length);
+        //    return "字符串格式无效";//string.Empty;
+        //}
 
-        public static string Base64ToString(string s)
-        {
-            return Base64ToString(s, Encoding.UTF8);
-        }
+        //public static string Base64ToString(string s)
+        //{
+        //    return Base64ToString(s, Encoding.UTF8);
+        //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static bool CheckBase64(string str)
-        {
-            string pattern = "^[a-zA-Z0-9+/]+[=]{0,2}$";
-            //System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern, System.Text.RegularExpressions.RegexOptions.None);
-            //return regex.IsMatch(str, 0);
-            return Regex.IsMatch(str, pattern, RegexOptions.None);
-        }
-        #endregion
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="str"></param>
+        ///// <returns></returns>
+        //public static bool CheckBase64(string str)
+        //{
+        //    string pattern = "^[a-zA-Z0-9+/]+[=]{0,2}$";
+        //    //System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern, System.Text.RegularExpressions.RegexOptions.None);
+        //    //return regex.IsMatch(str, 0);
+        //    return Regex.IsMatch(str, pattern, RegexOptions.None);
+        //}
+        //#endregion
 
         #region 密钥和初始向量
         /// <summary>
         /// 默认字节密钥
         /// </summary>
-        public static readonly byte[] Keys = { 0x10, 0x13, 0x29, 0x33, 0x48, 0x58, 0x64, 0x73, 0x85, 0x9A, 0xB0, 0xC6, 0xD3, 0xE9, 0xFB, 0x25, 0x22, 0x39, 0x45, 0x55, 0x66, 0x72, 0x88, 0x99, 0xA5, 0xBA, 0xC6, 0xD7, 0xEF, 0xFF, 0x96, 0x8F };
+        internal static readonly byte[] Keys = { 0x10, 0x13, 0x29, 0x33, 0x48, 0x58, 0x64, 0x73, 0x85, 0x9A, 0xB0, 0xC6, 0xD3, 0xE9, 0xFB, 0x25, 0x22, 0x39, 0x45, 0x55, 0x66, 0x72, 0x88, 0x99, 0xA5, 0xBA, 0xC6, 0xD7, 0xEF, 0xFF, 0x96, 0x8F };
 
         /// <summary>
         /// 初始化密钥向量
         /// </summary>
-        public static readonly byte[] IV = { 0x78, 0x9A, 0x3F, 0x52, 0x42, 0x5C, 0x67, 0x7F, 0x89, 0x9D, 0x0A, 0xAF, 0xBC, 0xCD, 0xD5, 0xEF };
+        internal static readonly byte[] IV = { 0x78, 0x9A, 0x3F, 0x52, 0x42, 0x5C, 0x67, 0x7F, 0x89, 0x9D, 0x0A, 0xAF, 0xBC, 0xCD, 0xD5, 0xEF };
 
         #endregion
 

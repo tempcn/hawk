@@ -169,7 +169,7 @@ namespace Hawk.Common
             {
                 int seed = Guid.NewGuid().GetHashCode();
                 Random random = new Random(seed);
-                int t = random.Next(CHAR_ARRAY.Length);
+                int t = random.Next( CHAR_ARRAY.Length);
 
                 code.Append(CHAR_ARRAY[t]);
             }
