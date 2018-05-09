@@ -586,10 +586,10 @@ namespace Hawk.Common
         public static string ByteToString(byte[] bytes, bool upper = false)
         {
             string format = upper ? "{0:X2}" : "{0:x2}";
-            StringBuilder str = new StringBuilder(bytes.Length * 2);
+            var s = new StringBuilder(bytes.Length * 2);
             for (int i = 0; i < bytes.Length; i++)
-                str.AppendFormat(format, bytes[i]);
-            return str.ToString();
+                s.AppendFormat(format, bytes[i]);
+            return s.ToString();
         }
 
         /// <summary>
