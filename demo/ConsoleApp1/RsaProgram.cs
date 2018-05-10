@@ -56,7 +56,7 @@ namespace ConsoleApp1
             }
         }
 
-        static void Main()
+        static void Main5()
         {
             int s = 1000;
             int[] sk = Rand.SplitInt(s, 5, 10);
