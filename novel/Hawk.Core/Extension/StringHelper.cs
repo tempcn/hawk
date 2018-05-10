@@ -37,17 +37,17 @@ namespace Hawk
         public static bool IsNotNullOrEmpty(this string s)
             => s != null && s.Length > 0;
 
-        /// <summary>追加分隔符字符串，忽略开头，常用于拼接</summary>
-        /// <param name="s">字符串构造者</param>
-        /// <param name="separator">分隔符</param>
-        /// <returns></returns>
-        public static StringBuilder Separate(this StringBuilder s, string separator = null)
-        {
-            if (s == null || string.IsNullOrEmpty(separator)) return s;
+        ///// <summary>追加分隔符字符串，忽略开头，常用于拼接</summary>
+        ///// <param name="s">字符串构造者</param>
+        ///// <param name="separator">分隔符</param>
+        ///// <returns></returns>
+        //public static StringBuilder Separate(this StringBuilder s, string separator = null)
+        //{
+        //    if (s == null || string.IsNullOrEmpty(separator)) return s;
 
-            if (s.Length > 0) s.Append(separator);
+        //    if (s.Length > 0) s.Append(separator);
 
-            return s;
-        }
+        //    return s;
+        //}
     }
 }

@@ -24,18 +24,59 @@ using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Utilities.Encoders;
 
+//using System.Numerics;
+using System.Xml;
+
 namespace ConsoleApp1
 {
     class RsaProgram
     {
+        static void Main9()
+        {
+            var content = "中华人民共和国,w$*";
+            Type type = typeof(Crypto.HashName);
+
+            var names = Enum.GetNames(type);
+            foreach (var item in names)
+            {
+                var name = (Crypto.HashName)Enum.Parse(type, item);
+                Console.WriteLine("加密方式:{0},结果:{1}", item, content.HashEx(name));
+            }
+            Console.WriteLine("===============对称加解密 ===============");
+            Type t = typeof(Crypto.Algorithm);
+            names = Enum.GetNames(t);
+
+            foreach (var item in names)
+            {
+                var name= (Crypto.Algorithm)Enum.Parse(t, item);
+                var cs = content.Encrypt(algName: name, upper: true);
+                Console.WriteLine("加密方式:{0},结果:{1}", item, cs);
+                var ds = cs.Decrypt(algName: name);
+                Console.WriteLine("解密方式:{0},结果:{1}", item, ds);
+            }
+        }
+
         static void Main()
         {
+            int s = 1000;
+            int[] sk = Rand.SplitInt(s, 5, 10);
+            for (int i = 0; i < sk.Length; i++)
+            {
+                Console.WriteLine(sk[i]);
+            }
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Console.WriteLine(Rand.RandomString(10));
+            //}
+        }
+        static void Main4()
+        {    
             //RSA密钥对的构造器  
             RsaKeyPairGenerator pGen = new RsaKeyPairGenerator();
 
             //RSA密钥构造器的参数  
             RsaKeyGenerationParameters param = new RsaKeyGenerationParameters(
-               BigInteger.ValueOf(0x11),
+             Org.BouncyCastle.Math.BigInteger.ValueOf(0x11),
                 new SecureRandom(),
                 1024,   //密钥长度  
                 100);
@@ -51,6 +92,35 @@ namespace ConsoleApp1
             //AsymmetricKeyParameter privateKey = keyPair.Private;
             RsaKeyParameters publicKey = (RsaKeyParameters)keyPair.Public;
             RsaKeyParameters privateKey = (RsaKeyParameters)keyPair.Private;
+
+            TextWriter textWriter = new StringWriter();
+            PemWriter pemWriter = new PemWriter(textWriter);
+            pemWriter.WriteObject(privateKey);
+            pemWriter.Writer.Flush();
+
+            string pemKey = textWriter.ToString();
+            Console.WriteLine(pemKey);
+
+            RSACryptoServiceProvider rSA = new RSACryptoServiceProvider();
+            string xmlPrivateKey= @"<RSAKeyValue><Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent><P>/hf2dnK7rNfl3lbqghWcpFdu778hUpIEBixCDL5WiBtpkZdpSw90aERmHJYaW2RGvGRi6zSftLh00KHsPcNUMw==</P><Q>6Cn/jOLrPapDTEp1Fkq+uz++1Do0eeX7HYqi9rY29CqShzCeI7LEYOoSwYuAJ3xA/DuCdQENPSoJ9KFbO4Wsow==</Q><DP>ga1rHIJro8e/yhxjrKYo/nqc5ICQGhrpMNlPkD9n3CjZVPOISkWF7FzUHEzDANeJfkZhcZa21z24aG3rKo5Qnw==</DP><DQ>MNGsCB8rYlMsRZ2ek2pyQwO7h/sZT8y5ilO9wu08Dwnot/7UMiOEQfDWstY3w5XQQHnvC9WFyCfP4h4QBissyw==</DQ><InverseQ>EG02S7SADhH1EVT9DD0Z62Y0uY7gIYvxX/uq+IzKSCwB8M2G7Qv9xgZQaQlLpCaeKbux3Y59hHM+KpamGL19Kg==</InverseQ><D>vmaYHEbPAgOJvaEXQl+t8DQKFT1fudEysTy31LTyXjGu6XiltXXHUuZaa2IPyHgBz0Nd7znwsW/S44iql0Fen1kzKioEL3svANui63O3o5xdDeExVM6zOf1wUUh/oldovPweChyoAdMtUzgvCbJk1sYDJf++Nr0FeNW1RB1XG30=</D></RSAKeyValue>";
+            rSA.FromXmlString(xmlPrivateKey);
+
+            var p = rSA.ExportParameters(true);
+
+            var key = new RsaPrivateCrtKeyParameters(
+                new BigInteger(1, p.Modulus), new BigInteger(1, p.Exponent),
+               new BigInteger(1, p.D), new BigInteger(1, p.P),
+                new BigInteger(1, p.Q), new BigInteger(1, p.DP), new BigInteger(1, p.DQ),
+                new BigInteger(1, p.InverseQ));
+            
+            
+
+            Console.WriteLine("===============");
+            Console.WriteLine(privateKey.Modulus);
+            Console.WriteLine(privateKey.Modulus.ToString());
+            Console.WriteLine(privateKey.Modulus.ToString().Length);
+            Console.WriteLine("===============");
+
 
             if (publicKey.Modulus.BitLength < 1024)
             {
@@ -140,6 +210,22 @@ namespace ConsoleApp1
 
         }
 
+        static  RsaKeyPairGenerator RSAPublicKeyDotNet2Java(string publicKey)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(publicKey);
+            string moduls = doc.DocumentElement.GetElementsByTagName("Modulus")[0].InnerText;
+            string exponent= doc.DocumentElement.GetElementsByTagName("Exponent")[0].InnerText;
+            var b = Convert.FromBase64String(moduls);
+            var b2 = Convert.FromBase64String(exponent);
+
+            System.Numerics.BigInteger m = new System.Numerics.BigInteger(b);
+
+            System.Numerics.BigInteger pm = new System.Numerics.BigInteger(b2);
+            // RsaKeyParameters pub=new RsaKeyParameters(false,)
+            return null;
+        }
+
         /// <summary>
         /// RSA加密
         /// </summary>
@@ -171,8 +257,7 @@ namespace ConsoleApp1
         /// <returns></returns>
         public static string RSADecrypt(string privatekey, string content)
         {
-            privatekey = @"<RSAKeyValue>
-<Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent><P>/hf2dnK7rNfl3lbqghWcpFdu778hUpIEBixCDL5WiBtpkZdpSw90aERmHJYaW2RGvGRi6zSftLh00KHsPcNUMw==</P><Q>6Cn/jOLrPapDTEp1Fkq+uz++1Do0eeX7HYqi9rY29CqShzCeI7LEYOoSwYuAJ3xA/DuCdQENPSoJ9KFbO4Wsow==</Q><DP>ga1rHIJro8e/yhxjrKYo/nqc5ICQGhrpMNlPkD9n3CjZVPOISkWF7FzUHEzDANeJfkZhcZa21z24aG3rKo5Qnw==</DP><DQ>MNGsCB8rYlMsRZ2ek2pyQwO7h/sZT8y5ilO9wu08Dwnot/7UMiOEQfDWstY3w5XQQHnvC9WFyCfP4h4QBissyw==</DQ><InverseQ>EG02S7SADhH1EVT9DD0Z62Y0uY7gIYvxX/uq+IzKSCwB8M2G7Qv9xgZQaQlLpCaeKbux3Y59hHM+KpamGL19Kg==</InverseQ><D>vmaYHEbPAgOJvaEXQl+t8DQKFT1fudEysTy31LTyXjGu6XiltXXHUuZaa2IPyHgBz0Nd7znwsW/S44iql0Fen1kzKioEL3svANui63O3o5xdDeExVM6zOf1wUUh/oldovPweChyoAdMtUzgvCbJk1sYDJf++Nr0FeNW1RB1XG30=</D></RSAKeyValue>";
+            privatekey = @"<RSAKeyValue><Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent><P>/hf2dnK7rNfl3lbqghWcpFdu778hUpIEBixCDL5WiBtpkZdpSw90aERmHJYaW2RGvGRi6zSftLh00KHsPcNUMw==</P><Q>6Cn/jOLrPapDTEp1Fkq+uz++1Do0eeX7HYqi9rY29CqShzCeI7LEYOoSwYuAJ3xA/DuCdQENPSoJ9KFbO4Wsow==</Q><DP>ga1rHIJro8e/yhxjrKYo/nqc5ICQGhrpMNlPkD9n3CjZVPOISkWF7FzUHEzDANeJfkZhcZa21z24aG3rKo5Qnw==</DP><DQ>MNGsCB8rYlMsRZ2ek2pyQwO7h/sZT8y5ilO9wu08Dwnot/7UMiOEQfDWstY3w5XQQHnvC9WFyCfP4h4QBissyw==</DQ><InverseQ>EG02S7SADhH1EVT9DD0Z62Y0uY7gIYvxX/uq+IzKSCwB8M2G7Qv9xgZQaQlLpCaeKbux3Y59hHM+KpamGL19Kg==</InverseQ><D>vmaYHEbPAgOJvaEXQl+t8DQKFT1fudEysTy31LTyXjGu6XiltXXHUuZaa2IPyHgBz0Nd7znwsW/S44iql0Fen1kzKioEL3svANui63O3o5xdDeExVM6zOf1wUUh/oldovPweChyoAdMtUzgvCbJk1sYDJf++Nr0FeNW1RB1XG30=</D></RSAKeyValue>";
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             byte[] cipherbytes;
             rsa.FromXmlString(privatekey);

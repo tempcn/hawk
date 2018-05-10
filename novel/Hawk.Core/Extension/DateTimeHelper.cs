@@ -24,7 +24,7 @@ namespace Hawk
         /// 格式化为{yyyy-MM-dd HH:mm:ss}
         /// </summary>
         /// <returns></returns>
-        public static string ToDateString(this DateTime dateTime)
+        public static string ToStringEx(this DateTime dateTime)
         => dateTime.ToString(DATE_STRING);
 
 

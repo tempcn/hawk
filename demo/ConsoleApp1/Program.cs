@@ -5,6 +5,8 @@ using Hawk;
 using Hawk.Common;
 using System.Security.Cryptography;
 using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace ConsoleApp1
 {  
@@ -62,23 +64,104 @@ namespace ConsoleApp1
             }       
         }
 
-        //static void Main(string [] args)
-        //{
-        //    var rs = new StringBuilder();
-        //    for (int i = 0; i < Spell.Chinese.Length; i++)
-        //    {
-        //        rs.Append("/*").Append((i + 1).ToString().PadLeft(4).PadRight(6)).Append("*/\"");
-        //        rs.Append(Spell.Chinese[i]);
-        //        rs.Append("\"");
-        //        if (i != Spell.Chinese.Length - 1)
-        //            rs.Append(",");
-        //        rs.AppendLine();
-        //    }
+        static void Main2(string[] args)
+        {
+            //var rs = new StringBuilder();
+            //for (int i = 0; i < Spell.Chinese.Length; i++)
+            //{
+            //    rs.Append("/*").Append((i + 1).ToString().PadLeft(4).PadRight(6)).Append("*/\"");
+            //    rs.Append(Spell.Chinese[i]);
+            //    rs.Append("\"");
+            //    if (i != Spell.Chinese.Length - 1)
+            //        rs.Append(",");
+            //    rs.AppendLine();
+            //}
 
-        //    WriteFile(rs.ToString(), "ccc");
-        //}
+            //WriteFile(rs.ToString(), "ccc");
 
-        static void Main88(string[] args)
+            var getC = GetChinese();
+            var getSC = new StringBuilder();
+            int j = 0;
+            foreach (var item in getC)
+            {
+                j++;
+                if (getSC.Length > 0)
+                    getSC.AppendLine(",");
+                getSC.Append("/*").Append((j).ToString().PadLeft(4).PadRight(6)).Append("*/\"");
+                getSC.Append(item.Key.PadRight(6));
+                getSC.Append(":").Append(item.Value.JoinEx());
+                getSC.Append("\"");
+            }
+
+            WriteFile(getSC.ToString(), "ccc2");
+
+            int k = 0; int white = Spell.Chinese.Length * 7;
+            for (int i = 0; i < Spell.Chinese.Length; i++)
+            {
+                k += Spell.Chinese[i].Length;
+            }
+            Console.WriteLine("汉字总数:" + k);
+
+            IEnumerable<string> strNum = null;// new string[] { "nihao", "xdk", "hkk", "22" };
+
+            strNum = new string[] { "kkkxxx" };
+
+            strNum = strNum.AddEx("xdf5");
+            strNum = strNum.AddEx("nihao2");
+            Console.WriteLine(strNum.JoinEx("#"));
+
+            IEnumerable<EnModl> skk = null;
+            skk = skk.AddEx(new EnModl() { Id = 100, Name = "xdf" });
+            skk = skk.AddEx(new EnModl() { Id = 1000, Name = "king" });
+            var ls = skk.JoinEx(",", x => x.Id + "#" + x.Name);
+            var ls2 = skk.JoinEx();
+            Console.WriteLine(ls);
+            Console.WriteLine(ls2);
+            Console.WriteLine(skk.Count());
+        }
+
+        static IDictionary<string, IList<string>> GetExistsPinYin()
+        {
+            IDictionary<string, IList<string>> dict = new Dictionary<string, IList<string>>();
+
+            for (int i = 0; i < Spell.SpellCode.Length; i++)
+            {
+                dict[Spell.SpellCode[i]] = new List<string>();
+            }
+            return dict;
+        }
+
+        static IDictionary<string, IList<string>> GetChinese()
+        {
+            IDictionary<string, IList<string>> dict = GetExistsPinYin();
+            for (int i = 0x4e; i <= 0x9f; i++)
+            {
+                for (int j = 0; j <= 0xff; j++)
+                {
+                    var hz = Encoding.BigEndianUnicode.GetString(new byte[] { (byte)i, (byte)j }, 0, 2);
+                    var spell = Spell.Get(hz);
+                    if (spell != hz)//查找到拼音
+                    {
+                        if(dict.ContainsKey(spell))
+                        {
+                            IList<string> item2 = dict[spell];
+                            item2.Add(hz);
+                            dict[spell] = item2;
+                        }
+                        else
+                        {
+                            IList<string> item = new List<string>();
+                            item.Add(hz);
+                            dict[spell] = item;
+                        }
+                    }
+                }
+            }
+            return dict;
+           // return dict.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
+        }
+
+        static void Main77(string[] args)
         {
             IDictionary<string, int> pinyin = new Dictionary<string, int>();
             for (int i = 0; i < 415; i++)
@@ -101,7 +184,7 @@ namespace ConsoleApp1
                     {
                         var hz = Encoding.BigEndianUnicode.GetString(new byte[] { (byte)i, (byte)j }, 0, 2);
                         var spell = Spell.Get(hz);
-                        if (spell != i.ToString())//查找到拼音
+                        if (spell != hz)//查找到拼音
                         {
                             if (pinyin.ContainsKey(spell))
                             {
@@ -126,7 +209,7 @@ namespace ConsoleApp1
             }
 
             Console.WriteLine("总拼音索引数是:{0}", m);//20992
-            Console.WriteLine("可转换为拼音的有:{0}", k);//20736
+            Console.WriteLine("可转换为拼音的有:{0}", k);//20738
             WriteFile(scode.ToString(), "_new");
         }
 
@@ -136,7 +219,7 @@ namespace ConsoleApp1
             //encode = Encoding.GetEncoding("gb2312");
 
             DateTime dt = DateTime.Now;
-            Console.WriteLine(dt.ToDateString());
+            Console.WriteLine(dt.ToStringEx());
 
             Console.WriteLine(Spell.Get('给'));
 

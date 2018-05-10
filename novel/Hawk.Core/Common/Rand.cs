@@ -86,6 +86,27 @@ namespace Hawk.Common
             return s.ToString();
         }
 
+        public static int[] Split(int s, int num, int max, int min = 1)
+        {
+            int[] rad = new int[num];
+            int sum = s - num;//先给每个数组中的数值留个1;
+            //if (num * min > sum) min = 1;
+            //if ((num - 1) * min + max > sum) max = sum - (num - 1) * min;
+            if (max >= sum) max = sum + 1;
+
+            for (int i = 0; i < num; i++)
+            {
+                int n = min;
+                if (max < sum)
+                    n = RandomNum(min, max);
+                else
+                    n = RandomNum(min, sum);
+                sum -= n;
+                rad[i] = n;
+            }
+            return rad;
+        }
+
         /// <summary>
         /// 随机把某个数分成一个数组
         /// </summary>
@@ -93,7 +114,7 @@ namespace Hawk.Common
         /// <param name="num">数组个数</param>
         /// <param name="min">数组最小数(最后一位不一定小于它)</param>
         /// <returns></returns>
-        public static int[] RandomInt(int s, int num, int min)
+        public static int[] SplitInt(int s, int num, int min)
         {
             int[] rad = new int[num];
 
@@ -107,10 +128,11 @@ namespace Hawk.Common
                         rad[k] = max;
                     else
                     {
-                        byte[] buffer = Guid.NewGuid().ToByteArray();
-                        int seed = BitConverter.ToInt32(buffer, 0);
-                        Random random = new Random(seed);
-                        rad[k] = random.Next(min, max + 1);
+                        //byte[] buffer = Guid.NewGuid().ToByteArray();
+                        //int seed = BitConverter.ToInt32(buffer, 0);
+                        //Random random = new Random(seed);
+                        //rad[k] =  random.Next(min, max + 1);
+                        rad[k] = RandomNum(min, max + 1);
                         max = max - rad[k];
                     }
                 }
