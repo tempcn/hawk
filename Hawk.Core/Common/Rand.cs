@@ -408,7 +408,7 @@ namespace Hawk.Common
         /// </summary>
         /// <param name="sum"></param>
         /// <returns></returns>
-        public static string GetSimplifiedChineseMath(out int sum)
+        public static string GetMath(out int sum)
         {
             string[] sc = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾", "佰", "仟", "万", "亿" };
             string[] op = { "+", "-", "x", "÷", "%" };
@@ -519,38 +519,47 @@ namespace Hawk.Common
             return result.ToString();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="strLen"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="strLen"></param>
+        ///// <returns></returns>
+        //public static string GetGBKString(int strLen)
+        //{
+        //    StringBuilder sb = new StringBuilder(strLen);
+
+        //    string[] strArray = GetGBKArray(strLen);
+        //    //for (int i = 0; i < strArray.Length; i++)
+        //    //    sb.Append(strArray[i]);
+        //    //return sb.ToString();
+
+        //    return StringToString(strArray);
+        //}
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="strLen"></param>
+        ///// <returns></returns>
+        //public static string[] GetGBKArray(int strLen)
+        //{
+        //    string[] strArray = new string[strLen];
+        //    Encoding encoding = Encoding.GetEncoding("gbk");
+
+        //    byte[][] bytes = CreateRegionCode(strLen);
+        //    for (int i = 0; i < bytes.Length; i++)
+        //        strArray[i] = encoding.GetString(bytes[i]);
+
+        //    return strArray;
+        //}
+
         public static string GetGBKString(int strLen)
         {
-            StringBuilder sb = new StringBuilder(strLen);
-
-            string[] strArray = GetGBKArray(strLen);
-            //for (int i = 0; i < strArray.Length; i++)
-            //    sb.Append(strArray[i]);
-            //return sb.ToString();
-
-            return StringToString(strArray);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="strLen"></param>
-        /// <returns></returns>
-        public static string[] GetGBKArray(int strLen)
-        {
-            string[] strArray = new string[strLen];
-            Encoding encoding = Encoding.GetEncoding("gbk");
-
             byte[][] bytes = CreateRegionCode(strLen);
+            var strArray = new string[strLen];
             for (int i = 0; i < bytes.Length; i++)
-                strArray[i] = encoding.GetString(bytes[i]);
-
-            return strArray;
+                strArray[i] = Encoding.GetEncoding("GB2312").GetString(bytes[i]);
+            return strArray.JoinEx();
         }
 
         /// <summary>
@@ -611,29 +620,29 @@ namespace Hawk.Common
             return bytes;
         }
 
-        public static string CharToString(char[] c)
-        {
-            StringBuilder sb = new StringBuilder(c.Length);
-            for (int i = 0; i < c.Length; i++)
-                sb.Append(c[i]);
-            return sb.ToString();
-        }
+        //public static string CharToString(char[] c)
+        //{
+        //    StringBuilder sb = new StringBuilder(c.Length);
+        //    for (int i = 0; i < c.Length; i++)
+        //        sb.Append(c[i]);
+        //    return sb.ToString();
+        //}
 
-        public static string StringToString(string[] s)
-        {
-            StringBuilder sb = new StringBuilder(s.Length);
-            for (int i = 0; i < s.Length; i++)
-                sb.Append(s[i]);
-            return sb.ToString();
-        }
+        //public static string StringToString(string[] s)
+        //{
+        //    StringBuilder sb = new StringBuilder(s.Length);
+        //    for (int i = 0; i < s.Length; i++)
+        //        sb.Append(s[i]);
+        //    return sb.ToString();
+        //}
 
-        public static string IntToString(int[] num)
-        {
-            StringBuilder sb = new StringBuilder(num.Length);
-            for (int i = 0; i < num.Length; i++)
-                sb.Append(num[i]);
-            return sb.ToString();
-        }
+        //public static string IntToString(int[] num)
+        //{
+        //    StringBuilder sb = new StringBuilder(num.Length);
+        //    for (int i = 0; i < num.Length; i++)
+        //        sb.Append(num[i]);
+        //    return sb.ToString();
+        //}
 
         ///// <summary>
         ///// 

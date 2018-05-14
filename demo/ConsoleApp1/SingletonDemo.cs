@@ -62,8 +62,8 @@ namespace ConsoleApp1
 
             Console.WriteLine("全拼运行时间:{0}" + stopwatch.ElapsedMilliseconds);
 
-            int ik = 500;
-            var sk = Rand.Split(ik, 100); int result = 0;
+            int ik = 50;
+            var sk = Rand.Split(ik, 8); int result = 0;
 
             for (int i = 0; i < sk.Length; i++)
             {
@@ -71,6 +71,16 @@ namespace ConsoleApp1
                 Console.WriteLine(sk[i]);
             }
             Console.WriteLine("最后结果是:{0},总数量是:{1}", result, sk.Length);
+
+            int sum = 0;
+            Console.WriteLine(Rand.GetMathString(out sum));
+            Console.WriteLine(sum);
+
+            Console.WriteLine(Rand.GetMath(out sum));
+            Console.WriteLine(sum);
+
+            Console.WriteLine(Rand.GetSimplifiedChinese(6));
+            Console.WriteLine(Rand.GetGBKString(6));
         }
 
         static void Main10()
