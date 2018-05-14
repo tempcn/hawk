@@ -83,6 +83,33 @@ namespace Hawk.Common
             return s.ToString();
         }
 
+        /// <summary>
+        /// 简单的数字分组
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static int[] Split(int s, int num)
+        {
+            int[] rad = new int[num];
+            int sum = s - num;//先给每个数组中的数值留个1;
+
+            for (int i = 0; i < num; i++)
+            {
+                if (i == num)
+                {
+                    rad[i] = sum + 1;
+                }
+                else
+                {
+                    int n = RandomNum(1, sum);
+                    sum -= n;
+                    rad[i] = n + 1;
+                }
+            }
+            return rad;
+        }
+
         public static int[] Split(int s, int num, int max, int min = 1)
         {
             int[] rad = new int[num];

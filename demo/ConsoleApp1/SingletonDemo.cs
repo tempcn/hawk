@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Hawk;
 using System.Threading;
+using Hawk.Common;
 
 namespace ConsoleApp1
 {
@@ -60,6 +61,16 @@ namespace ConsoleApp1
             Console.WriteLine(get);
 
             Console.WriteLine("全拼运行时间:{0}" + stopwatch.ElapsedMilliseconds);
+
+            int ik = 500;
+            var sk = Rand.Split(ik, 100); int result = 0;
+
+            for (int i = 0; i < sk.Length; i++)
+            {
+                result += sk[i];
+                Console.WriteLine(sk[i]);
+            }
+            Console.WriteLine("最后结果是:{0},总数量是:{1}", result, sk.Length);
         }
 
         static void Main10()
