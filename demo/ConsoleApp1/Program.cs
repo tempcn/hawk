@@ -95,12 +95,12 @@ namespace ConsoleApp1
 
             WriteFile(getSC.ToString(), "ccc2");
 
-            int k = 0; int white = Spell.Chinese.Length * 7;
-            for (int i = 0; i < Spell.Chinese.Length; i++)
-            {
-                k += Spell.Chinese[i].Length;
-            }
-            Console.WriteLine("汉字总数:" + k);
+            //int k = 0; int white = Spell.Chinese.Length * 7;
+            //for (int i = 0; i < Spell.Chinese.Length; i++)
+            //{
+            //    k += Spell.Chinese[i].Length;
+            //}
+            //Console.WriteLine("汉字总数:" + k);
 
             IEnumerable<string> strNum = null;// new string[] { "nihao", "xdk", "hkk", "22" };
 
@@ -124,10 +124,10 @@ namespace ConsoleApp1
         {
             IDictionary<string, IList<string>> dict = new Dictionary<string, IList<string>>();
 
-            for (int i = 0; i < Spell.SpellCode.Length; i++)
-            {
-                dict[Spell.SpellCode[i]] = new List<string>();
-            }
+            //for (int i = 0; i < Spell.SpellCode.Length; i++)
+            //{
+            //    dict[Spell.SpellCode[i]] = new List<string>();
+            //}
             return dict;
         }
 
@@ -164,11 +164,11 @@ namespace ConsoleApp1
         static void Main77(string[] args)
         {
             IDictionary<string, int> pinyin = new Dictionary<string, int>();
-            for (int i = 0; i < 415; i++)
-            {
-                string key = Spell.SpellCode[i];
-                pinyin[key] = i + 1;
-            }
+            //for (int i = 0; i < 415; i++)
+            //{
+            //    string key = Spell.SpellCode[i];
+            //    pinyin[key] = i + 1;
+            //}
             int k = 0, m = 0;
             var scode = new StringBuilder();
             for (int i = 0x4e; i <= 0x9f; i++)

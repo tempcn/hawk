@@ -31,7 +31,18 @@ namespace ConsoleApp1
 {
     class RsaProgram
     {
-        static void Main9()
+        static void Main0000()
+        {
+            string content = "";
+            string privateKey = "";
+            string input_charset = "utf-8";
+            var sign = RSA.sign(content, privateKey, input_charset);
+
+            string publicKey = "";
+            var verify = RSA.verify("", sign, publicKey, input_charset);
+        }
+
+        static void Main55()
         {
             var content = "中华人民共和国,w$*";
             Type type = typeof(Crypto.HashName);
@@ -40,7 +51,7 @@ namespace ConsoleApp1
             foreach (var item in names)
             {
                 var name = (Crypto.HashName)Enum.Parse(type, item);
-                Console.WriteLine("加密方式:{0},结果:{1}", item, content.HashEx(name));
+                Console.WriteLine("散列方式:{0},结果:{1}", item, content.HashEx(name));
             }
             Console.WriteLine("===============对称加解密 ===============");
             Type t = typeof(Crypto.Algorithm);
@@ -49,6 +60,7 @@ namespace ConsoleApp1
             foreach (var item in names)
             {
                 var name= (Crypto.Algorithm)Enum.Parse(t, item);
+                
                 var cs = content.Encrypt(algName: name, upper: true);
                 Console.WriteLine("加密方式:{0},结果:{1}", item, cs);
                 var ds = cs.Decrypt(algName: name);
@@ -145,6 +157,7 @@ namespace ConsoleApp1
             try
             {
                 testData = engine.ProcessBlock(testData, 0, testData.Length);
+                Console.WriteLine("密文是:{0}", testData.ToHex());
                 Console.WriteLine("密文（base64编码）:" + Convert.ToBase64String(testData) + Environment.NewLine);
             }
             catch (Exception ex)
@@ -174,25 +187,34 @@ namespace ConsoleApp1
             Console.Read();
         }
 
-        static void Main2(string[] args)
+        static void Main25(string[] args)
         {
-            var s = "中华人民共和国";
+            var s = "中华人民共和国,hello";
+
+            Console.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes(s)));
 
             var signType = "RSA";
 
             var res = "MIICXQIBAAKBgQDxtuDEwnLNHXailcEc9jqx+5iQx7C4ZBpzES18Yg4BU/5Pl6jUGHhTx265tKupz42JmYX8lJRtCx6gePKYU2JTKFe+v3ZUVLOjZWFaPsputqZZHOwhfYKpTm0WQZyNbzQe/pVKRtT4P+5oNBXyABKSROg1lNee//cPPtRUORjObQIDAQABAoGAJpUXabDUHFOQpUEcMyBGnDRZ1PpbBgPMiQN77DfGnoWmuVOu+jPxuQXDcdcZ86ASqp0b2wZobsNwnxLPPmtI7Ue/2RbwEQImXfD7itWgtEJlufW9tlX7Klw05sLtLkpIU5ymRFYcX64UIlKdAHLMHmdJjNOnkt5V6K92F9GWi0ECQQD6lbpxhEeiq9y6iTXGUgBKJMOgrJp9Jq/kSC0DmW4EgLPql9QJTD+H6oe5Fy8xl/9NOpWDOZdYj619avF3WbXxAkEA9vATp1AYoeTtB9mXPUjJlDluoxfOwqdKTzf/+xVGiTPAUGn+r6dEfa3GbJLD42NrNxxCe8QxdD0YD8zn6nu0PQJBAIklu8Z3bLGmuIdLo6fop4ns9zkQXvmSXABoVGK87c7/FfmWoZF5LuhXv3LZMpZFJ5EAOGZ69c+dy4lyJ7h33DECQQDtAmR6tB/QU19Fp4zHn3MKt0z/cLxcjCCAhGlG3pbC3U76X6G5ijvsvLu0PfGR8DxZut/81sP4oyLTF4KIxo6pAkA4NUZJ1q6BEX2ibfDBe+24lqm8CxSSpEJOMiceeiYOtHEwtOIlze/2ZJ1q6JRPJUcNdy1NXlMoaYHEK+e24DKy";
+
+            // res = "MIICeQIBADANBgkqhkiG9w0BAQEFAASCAmMwggJfAgEAAoGBANIkPKmF4cODTgTxzTo3ddGjie2QvMsoXvEWCZSq6LH50oR3bWSOXIfe0Ef0G8lHOhehe7YYTYl2hbv2zR1/4/Jp+IBBul+DKnvSL9nHXN5DI+ZR8tvvp6O+dwBZnhS44DG6SiTQRqAA2QQv9Qwe9g/O8POYhiQskx0BqVQDJAFJAgMBAAECgYEAoW3W7/96PEBdKe0609MQ/jecWFRMw+BCdv+P4pYcZcRdVQeNkKbQLEwdQnki8091L/wMVgl7XvMerxNb5KJ/TzBhtqjAlzxmfUzW4UM94HU2J1iqdJ4qNdqIYGwlHgKbcX6PddOZUtqTlV3lUAp7ZyZVqzgvdCh8OOkFU799oIECQQDuBQe4QfEgYgda9MOYRo7XG1nsU/6+QMUYI0o0zpV1speutKxFScntPGaJdB7hjw5ksdcX5qaPZdFERV+ohpqZAkEA4gQVQwhuUd87VxP2epei6nTdSzSXzRPNbvn+VjUt6lULfqfcbPNGOEWT3/B5jIbF2gd0QjUU/0xwXstp0P/6MQJBANd3SEC9uQlmlF/7WSD9JouFoAa3FtGlkoZCVAevx07vqC4oMhbbMGeJGQ1vSBFKTm5LK3rgeoEvW5xg7LKDf2kCQQCUtBkFHJPw/A2/0huWNxRya+d5ZqYFwOSmAodLUvvdtIy2jVzitgDaXzTW3xIp2jZsqADe2qvw+OrqA62gW/rRAkEAx3prKFvX5kMXEbhtPiFRU+oBu50v4i8q9yB8j0kyoCEvBkR62GMK5lfYEE5NuCjvSuJXKUIIpTq7o8zoiB7G+Q==";
+
+            res = "MIICXwIBAAKBgQDSJDypheHDg04E8c06N3XRo4ntkLzLKF7xFgmUquix+dKEd21kjlyH3tBH9BvJRzoXoXu2GE2JdoW79s0df+PyafiAQbpfgyp70i/Zx1zeQyPmUfLb76ejvncAWZ4UuOAxukok0EagANkEL/UMHvYPzvDzmIYkLJMdAalUAyQBSQIDAQABAoGBAKFt1u//ejxAXSntOtPTEP43nFhUTMPgQnb/j+KWHGXEXVUHjZCm0CxMHUJ5IvNPdS/8DFYJe17zHq8TW+Sif08wYbaowJc8Zn1M1uFDPeB1NidYqnSeKjXaiGBsJR4Cm3F+j3XTmVLak5Vd5VAKe2cmVas4L3QofDjpBVO/faCBAkEA7gUHuEHxIGIHWvTDmEaO1xtZ7FP+vkDFGCNKNM6VdbKXrrSsRUnJ7TxmiXQe4Y8OZLHXF+amj2XRREVfqIaamQJBAOIEFUMIblHfO1cT9nqXoup03Us0l80TzW75/lY1LepVC36n3GzzRjhFk9/weYyGxdoHdEI1FP9McF7LadD/+jECQQDXd0hAvbkJZpRf+1kg/SaLhaAGtxbRpZKGQlQHr8dO76guKDIW2zBniRkNb0gRSk5uSyt64HqBL1ucYOyyg39pAkEAlLQZBRyT8PwNv9IbljcUcmvneWamBcDkpgKHS1L73bSMto1c4rYA2l801t8SKdo2bKgA3tqr8Pjq6gOtoFv60QJBAMd6ayhb1+ZDFxG4bT4hUVPqAbudL+IvKvcgfI9JMqAhLwZEethjCuZX2BBOTbgo70riVylCCKU6u6PM6Igexvk=";
+
             RSACryptoServiceProvider rsa = DecodeRSAPrivateKey(res, signType);
 
             byte[] cipherbytes;
-            cipherbytes = rsa.Encrypt(Encoding.UTF8.GetBytes(s), false);
+            cipherbytes = rsa.Encrypt(Encoding.UTF8.GetBytes(s), true);
 
             var en2 = Convert.ToBase64String(cipherbytes);
-            Console.WriteLine(en2);
+            Console.WriteLine("加密结果:{0}", en2);
 
-            cipherbytes = rsa.Decrypt(Convert.FromBase64String(en2), false);
+            cipherbytes = rsa.Decrypt(Convert.FromBase64String(en2), true);
 
             Console.WriteLine("=======================");
-            Console.WriteLine(Encoding.UTF8.GetString(cipherbytes));
+            Console.WriteLine("解密结果:{0}", Encoding.UTF8.GetString(cipherbytes));
+
+            Console.WriteLine("=======================");
 
             RSAParameters sp = rsa.ExportParameters(true);
 
@@ -202,11 +224,32 @@ namespace ConsoleApp1
             Console.WriteLine(p1);
             // Console.WriteLine(p1);
 
-            Console.WriteLine("=======================");
-            rsa = new RSACryptoServiceProvider();
+            string publicKey = @"<RSAKeyValue><Modulus>0iQ8qYXhw4NOBPHNOjd10aOJ7ZC8yyhe8RYJlKrosfnShHdtZI5ch97QR/QbyUc6F6F7thhNiXaF
+u/bNHX/j8mn4gEG6X4Mqe9Iv2cdc3kMj5lHy2++no753AFmeFLjgMbpKJNBGoADZBC/1DB72D87w
+85iGJCyTHQGpVAMkAUk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+            string privateKey = @"<RSAKeyValue><Modulus>0iQ8qYXhw4NOBPHNOjd10aOJ7ZC8yyhe8RYJlKrosfnShHdtZI5ch97QR/QbyUc6F6F7thhNiXaF
+u/bNHX/j8mn4gEG6X4Mqe9Iv2cdc3kMj5lHy2++no753AFmeFLjgMbpKJNBGoADZBC/1DB72D87w
+85iGJCyTHQGpVAMkAUk=</Modulus><Exponent>AQAB</Exponent><P>7gUHuEHxIGIHWvTDmEaO1xtZ7FP+vkDFGCNKNM6VdbKXrrSsRUnJ7TxmiXQe4Y8OZLHXF+amj2XR
+REVfqIaamQ==</P><Q>4gQVQwhuUd87VxP2epei6nTdSzSXzRPNbvn+VjUt6lULfqfcbPNGOEWT3/B5jIbF2gd0QjUU/0xw
+Xstp0P/6MQ==</Q><DP>13dIQL25CWaUX/tZIP0mi4WgBrcW0aWShkJUB6/HTu+oLigyFtswZ4kZDW9IEUpObksreuB6gS9b
+nGDssoN/aQ==</DP><DQ>lLQZBRyT8PwNv9IbljcUcmvneWamBcDkpgKHS1L73bSMto1c4rYA2l801t8SKdo2bKgA3tqr8Pjq
+6gOtoFv60Q==</DQ><InverseQ>x3prKFvX5kMXEbhtPiFRU+oBu50v4i8q9yB8j0kyoCEvBkR62GMK5lfYEE5NuCjvSuJXKUIIpTq7
+o8zoiB7G+Q==</InverseQ><D>oW3W7/96PEBdKe0609MQ/jecWFRMw+BCdv+P4pYcZcRdVQeNkKbQLEwdQnki8091L/wMVgl7XvMe
+rxNb5KJ/TzBhtqjAlzxmfUzW4UM94HU2J1iqdJ4qNdqIYGwlHgKbcX6PddOZUtqTlV3lUAp7ZyZV
+qzgvdCh8OOkFU799oIE=</D></RSAKeyValue>
+";
 
-            var pp = rsa.ToXmlString(true);
-            Console.WriteLine(pp);
+            string jiami = RSAEncrypt(publicKey, s);
+            Console.WriteLine("加密结果:{0}", jiami);
+
+            string jiemi = RSADecrypt(privateKey, jiami);
+            Console.WriteLine("解密结果:{0}", jiemi);
+
+            //Console.WriteLine("=======================");
+            //rsa = new RSACryptoServiceProvider();
+
+            //var pp = rsa.ToXmlString(true);
+            //Console.WriteLine(pp);
 
         }
 
@@ -234,6 +277,7 @@ namespace ConsoleApp1
         /// <returns></returns>
         public static string RSAEncrypt(string publickey, string content)
         {
+            if(string.IsNullOrEmpty(publickey))
             publickey = @"<RSAKeyValue>
 <Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus>
 <Exponent>AQAB</Exponent>
@@ -241,8 +285,7 @@ namespace ConsoleApp1
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             byte[] cipherbytes;
             rsa.FromXmlString(publickey);
-            cipherbytes = rsa.Encrypt(Encoding.UTF8.GetBytes(content), false);
-
+            cipherbytes = rsa.Encrypt(Encoding.UTF8.GetBytes(content),true);
 
             //  RSAParameters pa2 = rsa.ExportParameters(false);           
 
@@ -257,11 +300,12 @@ namespace ConsoleApp1
         /// <returns></returns>
         public static string RSADecrypt(string privatekey, string content)
         {
-            privatekey = @"<RSAKeyValue><Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent><P>/hf2dnK7rNfl3lbqghWcpFdu778hUpIEBixCDL5WiBtpkZdpSw90aERmHJYaW2RGvGRi6zSftLh00KHsPcNUMw==</P><Q>6Cn/jOLrPapDTEp1Fkq+uz++1Do0eeX7HYqi9rY29CqShzCeI7LEYOoSwYuAJ3xA/DuCdQENPSoJ9KFbO4Wsow==</Q><DP>ga1rHIJro8e/yhxjrKYo/nqc5ICQGhrpMNlPkD9n3CjZVPOISkWF7FzUHEzDANeJfkZhcZa21z24aG3rKo5Qnw==</DP><DQ>MNGsCB8rYlMsRZ2ek2pyQwO7h/sZT8y5ilO9wu08Dwnot/7UMiOEQfDWstY3w5XQQHnvC9WFyCfP4h4QBissyw==</DQ><InverseQ>EG02S7SADhH1EVT9DD0Z62Y0uY7gIYvxX/uq+IzKSCwB8M2G7Qv9xgZQaQlLpCaeKbux3Y59hHM+KpamGL19Kg==</InverseQ><D>vmaYHEbPAgOJvaEXQl+t8DQKFT1fudEysTy31LTyXjGu6XiltXXHUuZaa2IPyHgBz0Nd7znwsW/S44iql0Fen1kzKioEL3svANui63O3o5xdDeExVM6zOf1wUUh/oldovPweChyoAdMtUzgvCbJk1sYDJf++Nr0FeNW1RB1XG30=</D></RSAKeyValue>";
+            if (string.IsNullOrEmpty(privatekey))
+                privatekey = @"<RSAKeyValue><Modulus>5m9m14XH3oqLJ8bNGw9e4rGpXpcktv9MSkHSVFVMjHbfv+SJ5v0ubqQxa5YjLN4vc49z7SVju8s0X4gZ6AzZTn06jzWOgyPRV54Q4I0DCYadWW4Ze3e+BOtwgVU1Og3qHKn8vygoj40J6U85Z/PTJu3hN1m75Zr195ju7g9v4Hk=</Modulus><Exponent>AQAB</Exponent><P>/hf2dnK7rNfl3lbqghWcpFdu778hUpIEBixCDL5WiBtpkZdpSw90aERmHJYaW2RGvGRi6zSftLh00KHsPcNUMw==</P><Q>6Cn/jOLrPapDTEp1Fkq+uz++1Do0eeX7HYqi9rY29CqShzCeI7LEYOoSwYuAJ3xA/DuCdQENPSoJ9KFbO4Wsow==</Q><DP>ga1rHIJro8e/yhxjrKYo/nqc5ICQGhrpMNlPkD9n3CjZVPOISkWF7FzUHEzDANeJfkZhcZa21z24aG3rKo5Qnw==</DP><DQ>MNGsCB8rYlMsRZ2ek2pyQwO7h/sZT8y5ilO9wu08Dwnot/7UMiOEQfDWstY3w5XQQHnvC9WFyCfP4h4QBissyw==</DQ><InverseQ>EG02S7SADhH1EVT9DD0Z62Y0uY7gIYvxX/uq+IzKSCwB8M2G7Qv9xgZQaQlLpCaeKbux3Y59hHM+KpamGL19Kg==</InverseQ><D>vmaYHEbPAgOJvaEXQl+t8DQKFT1fudEysTy31LTyXjGu6XiltXXHUuZaa2IPyHgBz0Nd7znwsW/S44iql0Fen1kzKioEL3svANui63O3o5xdDeExVM6zOf1wUUh/oldovPweChyoAdMtUzgvCbJk1sYDJf++Nr0FeNW1RB1XG30=</D></RSAKeyValue>";
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             byte[] cipherbytes;
             rsa.FromXmlString(privatekey);
-            cipherbytes = rsa.Decrypt(Convert.FromBase64String(content), false);
+            cipherbytes = rsa.Decrypt(Convert.FromBase64String(content), true);
 
             // RSAParameters pa = rsa.ExportParameters(true);
 
@@ -271,7 +315,7 @@ namespace ConsoleApp1
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="privkey"></param>
+        /// <param name="privkey">RSA PRIVATE KEY</param>
         /// <param name="signType">RSA(1024),RSA2(2048)</param>
         /// <returns></returns>
         private static RSACryptoServiceProvider DecodeRSAPrivateKey(string privkey, string signType)

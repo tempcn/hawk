@@ -28,9 +28,41 @@ namespace ConsoleApp1
         }
     }
 
+    public class ExeJob
+    {
+        static EnModl modl;
+
+        public static void Med(EnModl enModl)
+        {
+            lock(enModl)
+            {
+
+            }
+        }
+    }
+
     public class SingletonDemo
     {
         static void Main()
+        {
+            var s = "实体缓存的命中率基本上都超过了99%，其原理是整表缓存，每60秒过期，或者该表有数据变更时过期单对象缓存命中率也超过了90%，其策略是建立一个KeyValue字典，主键为Key，实体对象为Value，每次获取对象时先去字典里面找，没有再查数据库然后加入缓存。同样支持过期时间和数据变更控制一级缓存命中率不高，只有47%，但它是无差别精确缓存，63万次查询命中了30万，减少了30万次查询。其策略是根据sql缓存该表所有查询， 除非出现针对该表的Insert/Update/Delete操作。";
+
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+
+            stopwatch.Start();
+            var initial = Hawk.Common.Spell.GetInitial(s);
+            stopwatch.Stop();
+            Console.WriteLine(initial);
+            Console.WriteLine("首字母运行时间:{0}" + stopwatch.ElapsedMilliseconds);
+            stopwatch.Start();
+            var get = Hawk.Common.Spell.Get(s);
+            stopwatch.Stop();
+            Console.WriteLine(get);
+
+            Console.WriteLine("全拼运行时间:{0}" + stopwatch.ElapsedMilliseconds);
+        }
+
+        static void Main10()
         {
             var o = DateTime.Now.ToString("G");
             Console.WriteLine("时间格式\"O\",结果是:{0}", o);
