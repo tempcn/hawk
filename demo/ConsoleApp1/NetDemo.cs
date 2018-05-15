@@ -11,7 +11,7 @@ namespace ConsoleApp1
 {
     public class NetDemo
     {
-        static void Main()
+        static void Main2()
         {
             var url = "http://localhost:3639/Net/Default5.aspx";
 

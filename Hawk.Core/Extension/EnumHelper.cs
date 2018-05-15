@@ -43,8 +43,10 @@ namespace Hawk
         }
 
         public static string ToStringEx(this Enum value)
-        {
-            return Enum.GetName(value.GetType(), value);
-        }
+       => Enum.GetName(value.GetType(), value);
+
+
+        public static string[] ToStringExs(this Enum value)
+            => Enum.GetNames(value.GetType());
     }
 }

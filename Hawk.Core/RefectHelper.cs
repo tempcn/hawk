@@ -12,14 +12,11 @@ namespace Hawk
         /// <param name="assemblyName">程序集名称</param>
         /// <param name="fullName">类的完整名称(命名空间+类名)</param>
         /// <returns></returns>
-        public static T CreateInstance<T>(string assemblyName, string fullName)
+        public static T CreateInstance<T>(string assemblyName, string fullName) where T : class
         {
             try
             {
-                object ect = Assembly.Load(assemblyName).CreateInstance(fullName);
-
-                return (T)ect;
-
+                return (T)Assembly.Load(assemblyName).CreateInstance(fullName);
                 //第二种写法
                 //string path = fullName + "." + assemblyName;
                 //Type t = Type.GetType(path, false, true);
@@ -31,7 +28,7 @@ namespace Hawk
             }
             catch
             {
-                return default(T);
+                return null;// default(T);
             }
         }
     }

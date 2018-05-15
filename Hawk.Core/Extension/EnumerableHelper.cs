@@ -64,7 +64,7 @@ namespace Hawk
         public static string JoinEx<T>(this IEnumerable<T> value, string separator = null, Func<T, string> func = null)
         {
             var s = new StringBuilder();
-            if (value != null)
+            if (value.IsNotEmpty())
             {
                 if (func == null) func = obj => obj + "";
                 foreach (var item in value)

@@ -57,7 +57,7 @@ namespace ConsoleApp1
             }
         }
 
-        private static RSACryptoServiceProvider LoadCertificateString(string strKey)
+        public static RSACryptoServiceProvider LoadCertificateString(string strKey)
         {
             byte[] data = null;
             //读取带
@@ -76,7 +76,7 @@ namespace ConsoleApp1
             return null;
         }
 
-        private static RSACryptoServiceProvider LoadCertificateFile(string filename)
+        public static RSACryptoServiceProvider LoadCertificateFile(string filename)
         {
             using (System.IO.FileStream fs = System.IO.File.OpenRead(filename))
             {
@@ -101,7 +101,7 @@ namespace ConsoleApp1
 
 
 
-        private static byte[] GetPem(string type, byte[] data)
+        public static byte[] GetPem(string type, byte[] data)
         {
             string pem = Encoding.UTF8.GetString(data);
             string header = String.Format("-----BEGIN {0}-----\\n", type);
@@ -166,7 +166,7 @@ namespace ConsoleApp1
             return new string(asciiChars);
         }
 
-        private static byte[] decrypt(byte[] data, string privateKey, string input_charset)
+        public static byte[] decrypt(byte[] data, string privateKey, string input_charset)
         {
             RSACryptoServiceProvider rsa = DecodePemPrivateKey(privateKey);
             SHA1 sh = new SHA1CryptoServiceProvider();
@@ -178,13 +178,12 @@ namespace ConsoleApp1
         /// </summary>
         /// <param name="pemstr"></param>
         /// <returns></returns>
-        private static RSACryptoServiceProvider DecodePemPrivateKey(String pemstr)
+        public static RSACryptoServiceProvider DecodePemPrivateKey(String pemstr)
         {
             byte[] pkcs8privatekey;
             pkcs8privatekey = Convert.FromBase64String(pemstr);
             if (pkcs8privatekey != null)
             {
-
                 RSACryptoServiceProvider rsa = DecodePrivateKeyInfo(pkcs8privatekey);
                 return rsa;
             }
@@ -192,7 +191,7 @@ namespace ConsoleApp1
                 return null;
         }
 
-        private static RSACryptoServiceProvider DecodePrivateKeyInfo(byte[] pkcs8)
+        public static RSACryptoServiceProvider DecodePrivateKeyInfo(byte[] pkcs8)
         {
 
             byte[] SeqOID = { 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00 };
@@ -256,7 +255,7 @@ namespace ConsoleApp1
         }
 
 
-        private static bool CompareBytearrays(byte[] a, byte[] b)
+        public static bool CompareBytearrays(byte[] a, byte[] b)
         {
             if (a.Length != b.Length)
                 return false;
@@ -270,7 +269,7 @@ namespace ConsoleApp1
             return true;
         }
 
-        private static RSACryptoServiceProvider DecodeRSAPrivateKey(byte[] privkey)
+        public static RSACryptoServiceProvider DecodeRSAPrivateKey(byte[] privkey)
         {
             byte[] MODULUS, E, D, P, Q, DP, DQ, IQ;
 
@@ -344,7 +343,7 @@ namespace ConsoleApp1
             finally { binr.Close(); }
         }
 
-        private static int GetIntegerSize(BinaryReader binr)
+        public static int GetIntegerSize(BinaryReader binr)
         {
             byte bt = 0;
             byte lowbyte = 0x00;
@@ -381,9 +380,8 @@ namespace ConsoleApp1
         }
 
         #region 解析.net 生成的Pem
-        private static RSAParameters ConvertFromPublicKey(string pemFileConent)
+        public static RSAParameters ConvertFromPublicKey(string pemFileConent)
         {
-
             byte[] keyData = Convert.FromBase64String(pemFileConent);
             if (keyData.Length < 162)
             {
@@ -399,7 +397,7 @@ namespace ConsoleApp1
             return para;
         }
 
-        private static RSAParameters ConvertFromPrivateKey(string pemFileConent)
+        public static RSAParameters ConvertFromPrivateKey(string pemFileConent)
         {
             byte[] keyData = Convert.FromBase64String(pemFileConent);
             if (keyData.Length < 609)
