@@ -50,7 +50,7 @@ namespace Hawk.Common
         {
             var rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(pubKey);
-            return rsa.VerifyData(buf, "", signature);
+            return rsa.VerifyData(buf, SHA1.Create(), signature);
         }
 
         public static bool VerifyHash(byte[] buf, byte[] signature, string pubKey)

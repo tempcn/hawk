@@ -43,23 +43,6 @@ namespace Hawk.Common
         public static string Get(string key, int db = -1)
             => Instance.GetDatabase(db).StringGet(key);
 
-        public static T GetEx<T>(string key, int db = -1)
-        {
-            T t = default(T);
-            var s = Get(key, db);
-            if (!string.IsNullOrEmpty(s))
-                t = JsonConvert.DeserializeObject<T>(s);
-            return t;
-        }
-
-        public static bool SetEx(string key, object value, DateTimeOffset? expiry = null, int db = -1)
-        {
-            if (value == null) return false;
-            TimeSpan? ts = null;
-            if (expiry.HasValue) ts = expiry.Value.ToUniversalTime() - DateTime.UtcNow;
-            return Instance.GetDatabase(db).StringSet(key, JsonConvert.SerializeObject(value), ts);
-        }
-
         public static async Task<string> GetAsync(string key, int db = -1)
             => await Instance.GetDatabase(db).StringGetAsync(key);
 
@@ -75,6 +58,23 @@ namespace Hawk.Common
             TimeSpan? ts = null;
             if (expiry.HasValue) ts = expiry.Value.ToUniversalTime() - DateTime.UtcNow;
             return await Instance.GetDatabase(db).StringSetAsync(key, value, ts);
+        }
+
+        public static T GetEx<T>(string key, int db = -1)
+        {
+            T t = default(T);
+            var s = Get(key, db);
+            if (!string.IsNullOrEmpty(s))
+                t = JsonConvert.DeserializeObject<T>(s);
+            return t;
+        }
+
+        public static bool SetEx(string key, object value, DateTimeOffset? expiry = null, int db = -1)
+        {
+            if (value == null) return false;
+            TimeSpan? ts = null;
+            if (expiry.HasValue) ts = expiry.Value.ToUniversalTime() - DateTime.UtcNow;
+            return Instance.GetDatabase(db).StringSet(key, JsonConvert.SerializeObject(value), ts);
         }
 
         public static bool HashSet(string key, string field, RedisValue value, int db = -1)

@@ -17,5 +17,5 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\Lib\</OutputPath>
   </PropertyGroup>
-
+  
 </Project>

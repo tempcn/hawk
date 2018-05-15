@@ -23,7 +23,7 @@ namespace Hawk
 
 #if !NET40
             var item = type.GetField(value.ToString(), BindingFlags.Public | BindingFlags.Static);
-            if (item == null) return null;      
+            if (item == null) return null;
             var att = item.GetCustomAttribute<DescriptionAttribute>(false);
             if (att != null && !string.IsNullOrEmpty(att.Description))
                 return att.Description;
@@ -40,6 +40,11 @@ namespace Hawk
             }
 #endif
             return null;
+        }
+
+        public static string ToStringEx(this Enum value)
+        {
+            return Enum.GetName(value.GetType(), value);
         }
     }
 }

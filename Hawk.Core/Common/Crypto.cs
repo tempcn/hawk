@@ -25,7 +25,10 @@ namespace Hawk.Common
         static HashAlgorithm GetAlgorithm(HashName hashName)
         {
             if (hashName == HashName.CRC32) return new Crc32();
-            else return HashAlgorithm.Create(Enum.GetName(typeof(HashName), hashName));
+            else
+                return
+                    //HashAlgorithm.Create(Enum.GetName(typeof(HashName), hashName));
+                    HashAlgorithm.Create(hashName.ToStringEx());
         }
 
         public static byte[] HashByteEx(this string s, HashName hashName = HashName.MD5, Encoding encode = null)

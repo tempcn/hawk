@@ -5,3 +5,5 @@ packages/
 .vs/
 Build/
 App_Data/
+Properties/
+*.user
