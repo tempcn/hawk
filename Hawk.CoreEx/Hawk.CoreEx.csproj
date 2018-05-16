@@ -6,7 +6,8 @@
     <Authors>hawk</Authors>
     <Company>jinyan</Company>
     <Copyright>JinYan 2018,Inc.</Copyright>
-    <Version>1.0.1</Version>
+    <Version>1.0.2-alpha2</Version>
+    <Product>基础扩展库</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

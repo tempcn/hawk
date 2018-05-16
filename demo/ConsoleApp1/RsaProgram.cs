@@ -24,6 +24,7 @@ using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.Utilities.Encoders;
 
+using Bc_BigInteger = Org.BouncyCastle.Math.BigInteger;
 //using System.Numerics;
 using System.Xml;
 
@@ -31,41 +32,47 @@ namespace ConsoleApp1
 {
     class RsaProgram
     {
-        static void Main()
+        static void Main99()
         {
             string s = "中华人民共和国,hello";
             Console.WriteLine("原加密字符串：\n{0}\n", s);
+            Console.WriteLine("BASE64字符串是:{0}", Convert.ToBase64String(Encoding.UTF8.GetBytes(s)));
             var priKey = "MIICXQIBAAKBgQCh7hhp9QWrFdzl3JvnOGOTJs5wAXH9o2r7bN34xf4ANMHjogGy7jhCsT5O4XNV9CK4aq38uLvcs5FkVqYOHdWClZ9Y6SOnsJqb9vNpTkfcMyvVhwRCLiehAnfl0uKrHX9QQoIfM6lQLJyPHBRXkkJs0Nd/GoqnvohCPyuMNd3vkQIDAQABAoGAMIbh2h8Lq9HJeTk7n3dOn/KpOvez6YbnsKFXhA4RqI4m7MjIKY8qXRIw0gLORZv8K7gMnAfghKtrjt5ItUJLkXSrP4PmA/FQYSQbFSV0uCODsYz7exzm/3OAlrdoSPQW0OGsOQFjOU3e13zjmjKVtnXPjs3frsa1rK1Z4ipC1IECQQDN0zT7FMlbjAj/tqo07LKEYGgQ3watGgevIsCZ2HQaCTPDhSbZaE639WdQzELv/qQ7ogckC7hgLbz40ZZ1sKKtAkEAyWeQE4aUnf6Wc+XDXgzh1TkPmnj3Mpv8CxFw0tyJcInBP1ALQgGsqgp2KWdFdYf3kNrlYgZvO6z1pV3TE6NA9QJAL4Et2z2C8+QwN4TbZ/exhCgUHMC887rsRxnIRjnVIiU5k0jqHIeck4zKWbWrRWUKVtEgwMsLtPcZhHwrM+KeyQJBALPNrSaBY3SZsJ/PY9c3EPZWdsOlcqrP7vfCnkLheCHsGYX4Y9SNwiQcKtlTxQLkW/QKN/aHYA6ansL/PE2v1XECQQCypsY3hBMrhYeji5FN7HnL3NmKUMp0fMKxXyTx1pwuSdsxX6NDJF3ut78BKkMg/7dkbaSZNBNjAsAYF0v4ZQ1t";
 
             //net 2048位
             // priKey = "MIIEpAIBAAKCAQEAtuHlnO70eARmRI/VYKSuFJzOuMf7pTpk53L1hxAcG5AxnonPH7HSuQ2vyJDKMxGcwn3bHD9AWbn6hJUmfFscHYe8aEdmeqKd8vvWbHx+3gYizGyiccW5R3p1gRiSOiqQGG/e6ftaWhJAFAvZ961Vzk05yxJ4nO5/ZdiWFuUNuebJeDS9APr0MnxXbptdOXtYcYDYovSGWbhtmnWPfnCBquRvUfchu9aOVTqt8QRZ6IxBvy9wdahC1umR1mwZg1fpVtauNNWy/jeiOiNh3bs7AO8jnYMyo2TjB5a+tbCv7/HB6T0QHwywfMQcbuunUmz45DgqMNFj8IS7rjW0FJFuWQIDAQABAoIBAQCisWeRKsr1EgTgrYxHg3kSAUWuAMqPfNlTRWPDmcNHigl6XmKScaFi2xgsNxKKR/rK0yffgy1+JQMGe6FXM75ZTu1/XzV9l7kn9n4U2NQMNC006tfAmwNu4TQzemZrtH2oH62RPfhs9JtoufpYai1RcEYfr/j4svtG4Vz0VSTW4UYBLRoOjJDBVzlQOI9drNpa0yoRe/Nd6mYQIC+Ar5M7Z3KRUMNaleIsNd7DJyxyy0T/lDZfZwubgoABFVMWQjjb7aQfq1c2CRRBHHBHnj3mnB8qNyXpZ6wLfO0P7vCyxNpLu1MgpxDvjQ9m7TnRrli3BEQKL0pcxxaQVzwmxmoBAoGBANx9XCeBDLpqQfylkJEOszUv+CF1mHyBRYTvcY6srQW8s5/tXIl5q3TcK6tXOVTcxqFebT7pJ1jxyQ3DD5JbSRCoIddZTS8ldhm/XOjF6AUmUg8kHM7VhTeO7FpCBDIVjO2es9jgR4X3zfqF30V1MBYP6kvUVwPpWs7qNZ0EIxW5AoGBANRWA7KPeMM6ObFwORapoEJYXnZLQL2empFdgX9jdW5pLXkgG7qkbpNz146mPLqer1kKCEpiuNdEKfDku5LCVzr6Ji/AJR45y1UYmY51hnNDAyKM0LYWeaUC94MkA3bhr0204tA3bX1kHgh16BnklCiPYTybLvZ+/qIYkg9cyW2hAoGAX6zuDh5LfaCaHZ1iS++LB+tWyn4SuwQFPJgCOJzpP3IQp7cBzo3DPqRDNshUkmRytJca5I+biVbxnU0lNqbx3451kNKpUWn6A1YsZL1r3sAwH23WKlIwylj0an33AByl2H5jIBrCLnnHIYxxw9wED668RkdPstzRkLPEq+udpdECgYBexlW4KZm5ag++R1zz5JqHgnIHUud+u4A6SgY3Gemcco29drtpv2MrpZUdMs4AbjvN/lBdA1uFmgMuZqnig6PzyxuoTJdEun8raGOB1qtAXzTTAw9VdwqswHpBqp1xPqLEiGyEi3jvcvSEyjvi8se+ouC/8HQxydVV/KmU+dFegQKBgQDHFyylw3m7s89SPIRCKBUqbfde3xM1Ll+P+ZHta+SG1hKgMcpRghIooQEcfJ4tN9PMjchNBmNDQ86YEhAfP3Iq4WehfKAEW25pFb+jF+Gje85+PQBIeigaLbQn/T0wpnfoCDPmXevgVQ5pe7FyID1KMYk+7VYnr2LNpBhWqWPJcw==";
 
             //java 私钥
-            // priKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALCXQdGHyof0L8VOiGz6TUcmCGHLaC/js/Hi+86BF4u2cFd5siRzV0LvOEnkdel+Ah0T0LJFyWQrdzkaxLXl1YoHDX7v4aO1Pmy471Fk+yDjgHt2LuIyFXX6hpAuZgxddsq1ynkxUqDGC4Nidbun2XJNj7NPPBhDN10PZa4wfP+9AgMBAAECgYEAjnF0Jg/izsepwP4YDc/ZhgqnuDrbT8Xc4MC3XVvEIm6HMAh6Kezf9p4ASZp/gliiW9IgBa1FRgfJo8Zz5kX+eH9aEGf10pBC1g1qErfIQfKWAF45I5mPpOuUZI4uQPX2e0mvmLlY8uVl3Tp/o85U0ewxDbrCBBadsUrF0IQaIAECQQDr4iWn/EWiYR30bSk5HyCfNALDKRxXml0/tTy0E0AQD2GsO31JNGftNM3WCpkxbVED4MR/uerytl3quaZWQnWNAkEAv6afn+Kayjzjw5P6I1xXYaA3DT4rup6+37s+PD8zBdonpFCFoEjHHJfH/MhGqAvld4nFYMnGm/Zru1b6ekEu8QJAEt7tukmxXHM+jT5qbNpzpqjni6tvTAbabO1X5OQhXOeOHdRIiqG5qr1ttjD03oJrV88UiU9bX319d/jQONhqRQJBAJ/kjuZgs02pEUk5qwZXYxuzBFsLFIalLJAScrDm9VWblVk0SNfaACytwQ73tGM9UZuymLbQgN/b7jOlNGJNAbECQEu/xclNN0IlNogtybPsyJL9isanUVlb6yUSoWvBQiq3CkD62+xLN032vxirCW1+VIhEdn1f7c358l17F3sNYv4=";
+            priKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALtOu+jFMNqQfbgaD6NqJa7+rdHbUwOvLOEkwrAun3ojMtzsYn6pk4Xce7fMS23BU/jj+XHqjpty5r8ue/PKJjcyTlUJ5QecJd+rQ8HHr3URiX5h3gcjzn52A6UGbq7rWI9eMpRM2EFYn0jSCIsgC29Qtxoxdnqd8FHkpklGY5R5AgMBAAECgYBCLZBArqMTJef1SufpkdBcosjhE3+iFpthtK5At0hLS/JlkfM+00U3D256wuiHj73OeyWf9QKLs64JMDBFM1AKpxYcJI2f8U2XdIEm3+F7DGuXJxgovEH5z6Xog2CKCTJblalU/lrLQGNV9X8IyOrVCfBqun4WhdKVlshYnF5Y7QJBAO9q9bBf0ED9tWhOCw+ZAOnr7hpQsi0JZHdH/XE9RjU414SbWLvc5TV3xdqxYY/iR2YpxxRWTuGw9sBbWfog6asCQQDIR9L3GmNtAZ2hDNPXDSrjYd3GI5V1qXjWQqgh5rXq+ln++MWaYbspN7GRmpm0NRMfX0qc3i2HAxMWE1SEn75rAkA7GdpAicZs5LRNZUaRuSFinV0Pne/98h2c3GaR96BHLxr0nyyOY38pbcGntLXywNcDPzjnqk6apAalgWd6uXk1AkEAretpMPnyY0Om7ablAvfFSaW/34MhFAcyDuXdeWsOiNoUcsz3U+QQkm9xvJ5DYXFBhNnMQkLRyE+MMHxixbSutwJBAOhXvmK+vyu2Yjwq9+eVZ5WadmGqcAj+6/XaoP98vMsNfpIHmriOrZpyZDYz2POVX6r4ouk6IAMJrlEK8dxhfYU=";
           
             RSACryptoServiceProvider rsa;
 
-            //var bb = Convert.FromBase64String(priKey);
-            //rsa = RSA.DecodeRSAPrivateKey(bb);
+            //rsa = new RSACryptoServiceProvider();
+            //string[] genKey = RsaHelper.GenerateKey();
+            //rsa.FromXmlString(genKey[0]);
+            //rsa.FromXmlString("<RSAKeyValue><Modulus>u0676MUw2pB9uBoPo2olrv6t0dtTA68s4STCsC6feiMy3OxifqmThdx7t8xLbcFT+OP5ceqOm3Lmvy5788omNzJOVQnlB5wl36tDwcevdRGJfmHeByPOfnYDpQZurutYj14ylEzYQVifSNIIiyALb1C3GjF2ep3wUeSmSUZjlHk=</Modulus><Exponent>AQAB</Exponent><P>72r1sF/QQP21aE4LD5kA6evuGlCyLQlkd0f9cT1GNTjXhJtYu9zlNXfF2rFhj+JHZinHFFZO4bD2wFtZ+iDpqw==</P><Q>yEfS9xpjbQGdoQzT1w0q42HdxiOVdal41kKoIea16vpZ/vjFmmG7KTexkZqZtDUTH19KnN4thwMTFhNUhJ++aw==</Q><DP>OxnaQInGbOS0TWVGkbkhYp1dD53v/fIdnNxmkfegRy8a9J8sjmN/KW3Bp7S18sDXAz8456pOmqQGpYFnerl5NQ==</DP><DQ>retpMPnyY0Om7ablAvfFSaW/34MhFAcyDuXdeWsOiNoUcsz3U+QQkm9xvJ5DYXFBhNnMQkLRyE+MMHxixbSutw==</DQ><InverseQ>6Fe+Yr6/K7ZiPCr355VnlZp2YapwCP7r9dqg/3y8yw1+kgeauI6tmnJkNjPY85Vfqvii6TogAwmuUQrx3GF9hQ==</InverseQ><D>Qi2QQK6jEyXn9Urn6ZHQXKLI4RN/ohabYbSuQLdIS0vyZZHzPtNFNw9uesLoh4+9znsln/UCi7OuCTAwRTNQCqcWHCSNn/FNl3SBJt/hewxrlycYKLxB+c+l6INgigkyW5WpVP5ay0BjVfV/CMjq1Qnwarp+FoXSlZbIWJxeWO0=</D></RSAKeyValue>");
 
-            string signType = "RSA";// "RSA";//"RSA2";
-            rsa =  DecodeRSAPrivateKey(priKey, signType);
+            var pkcs8 = Convert.FromBase64String(priKey);
+            rsa = RsaHelper.DecodePrivateKeyInfo(pkcs8);
 
-            // var pkcs8 = Convert.FromBase64String(priKey);
-            // rsa = RSA.DecodePrivateKeyInfo(pkcs8);
+            //string signType = "RSA";// "RSA";//"RSA2";
+            //rsa =  DecodeRSAPrivateKey(priKey, signType);
 
             //有错误
-           //RSAParameters param = RSA.ConvertFromPrivateKey(priKey);
+            //RSAParameters param = RSA.ConvertFromPrivateKey(priKey);
 
             //RSAParameters param2 = rsa.ExportParameters(true);
 
             //Console.WriteLine("参数结果:{0}", param.Equals(param2));
             //Console.WriteLine("参数结果:{0}", param.Exponent == param2.Exponent);
 
+
             byte[] cipherbytes = rsa.Encrypt(Encoding.UTF8.GetBytes(s), true);
 
             var en2 = Convert.ToBase64String(cipherbytes);
             Console.WriteLine("加密结果：\n{0}\n", en2);
+
+            en2 = "BLeM47f7ZYlDJzR0rEGZ5/o6mvPD3hG/C3NWf9zzYw2DLEiwYaantOikYycENhcvjxZ41GfVOizPL3UuNUkZTTa1WyNkneP8Aw1ji209kOGKC5qD8G6WMtuclkXXG0F5jJ/AMYNkKbjpq7hoHtyZOCunH1r2meZApQCzeXeQXr0=";
 
             cipherbytes = rsa.Decrypt(Convert.FromBase64String(en2), true);
 
@@ -80,6 +87,8 @@ namespace ConsoleApp1
             var p2 = rsa.ToXmlString(false);
             Console.WriteLine("私钥：\n{0}\n", p1);
             Console.WriteLine("公钥：\n{0}\n", p2);
+
+            Console.Read();
         }
 
         static void Main000()
@@ -149,10 +158,10 @@ namespace ConsoleApp1
             var p = rSA.ExportParameters(true);
 
             var key = new RsaPrivateCrtKeyParameters(
-                new BigInteger(1, p.Modulus), new BigInteger(1, p.Exponent),
-               new BigInteger(1, p.D), new BigInteger(1, p.P),
-                new BigInteger(1, p.Q), new BigInteger(1, p.DP), new BigInteger(1, p.DQ),
-                new BigInteger(1, p.InverseQ));
+                new Bc_BigInteger(1, p.Modulus), new Bc_BigInteger(1, p.Exponent),
+               new Bc_BigInteger(1, p.D), new Bc_BigInteger(1, p.P),
+                new Bc_BigInteger(1, p.Q), new Bc_BigInteger(1, p.DP), new Bc_BigInteger(1, p.DQ),
+                new Bc_BigInteger(1, p.InverseQ));
             
             
 

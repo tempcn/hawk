@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text;
+using System.Numerics;
 
 namespace Hawk
 {
@@ -18,6 +18,9 @@ namespace Hawk
 
         public static long ToInt64(this string s, long def = 0L)
             => To(s, long.TryParse, def);
+
+        public static BigInteger ToBigInt(this string s, BigInteger? def = null)
+          => To(s, BigInteger.TryParse, def.HasValue ? def.Value : BigInteger.Zero);
 
         public static DateTimeOffset ToDateTimeOffset(this string s, DateTimeOffset? def = null)
             => To(s, DateTimeOffset.TryParse, def.HasValue ? def.Value : DateTimeOffset.MinValue);
