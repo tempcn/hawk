@@ -8,23 +8,41 @@ using System.Data.Common;
 
 #if NET40 || NET45 || NET452 || NET46
 using System.Configuration;
-using Dapper;
 #endif
+using Dapper;
 
 namespace Hawk.Common
 {
-#if NET40 || NET45 ||NET452 || NET46
-    public class DataEx
+    public class DataEx//<T> where T:class
     {
-        static string ConnectionString { get; } = ConfigurationManager.ConnectionStrings[ConfigurationManager.ConnectionStrings.Count - 1].ConnectionString;
+#if NET40 || NET45 || NET452
+        public static string ConnectionString { get; } = ConfigurationManager.ConnectionStrings[ConfigurationManager.ConnectionStrings.Count - 1].ConnectionString;
+#else
+            public static string ConnectionString { get;set; } 
+#endif
 
-         static DbProviderFactory Factory { get; } = DbProviderFactories.GetFactory(ConfigurationManager.ConnectionStrings[ConfigurationManager.ConnectionStrings.Count - 1].ProviderName);
+#if !(NET40 || NET45 || NET452)
+        public static string AssemblyName { get; set; }
+        public static string FullName { get; set; }
+#endif
+        static DbProviderFactory Factory
+        {
+            get
+            {
+#if NET40 || NET45 || NET452
+                return DbProviderFactories.GetFactory(ConfigurationManager.ConnectionStrings[ConfigurationManager.ConnectionStrings.Count - 1].ProviderName);
+#else
+                //return RefectHelper.CreateInstance<T>(AssemblyName, FullName) as DbProviderFactory;
+                return RefectHelper.CreateInstance<DbProviderFactory>(AssemblyName, FullName);
+#endif
+            }
+        }
 
-       // public static IDbConnection Connection { get; } = Factory.CreateConnection();
+        // public static IDbConnection Connection { get; } = Factory.CreateConnection();
 
         public static IDbConnection GetConn()
         {
-            IDbConnection conn = Factory.CreateConnection();     
+            IDbConnection conn = Factory.CreateConnection();
             conn.ConnectionString = ConnectionString;
 
             if (conn.State == ConnectionState.Closed)
@@ -118,7 +136,7 @@ namespace Hawk.Common
         {
             DbConnection conn = Factory.CreateConnection();
             conn.ConnectionString = ConnectionString;
-            DbCommand cmd = Factory.CreateCommand();
+            DbCommand cmd = conn.CreateCommand();// Factory.CreateCommand();
 
             PrepareCommand(cmd, conn, cmdText, cmdType, cmdParms);
 
@@ -152,5 +170,4 @@ namespace Hawk.Common
             }
         }
     }
-#endif
 }

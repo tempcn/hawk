@@ -10,10 +10,11 @@ using System.Configuration;
 using Newtonsoft.Json;
 using log4net;
 using log4net.Repository;
+using log4net.Config;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+//[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Hawk.Demo
 {
     class Program
@@ -31,7 +32,21 @@ namespace Hawk.Demo
             else
                 Console.WriteLine("nothing");
         }
-        static void Main(string[] args)
+
+        static void Main()
+        {
+            string repoName = "NetCoreRepo";
+            ILoggerRepository repo = LogManager.CreateRepository(repoName);
+            BasicConfigurator.Configure(repo);
+
+            log4net.ILog logger = log4net.LogManager.GetLogger(repo.Name, "NetCore");
+
+            logger.Info("netcore log");
+
+            Console.Read();
+        }
+
+        static void Main88(string[] args)
         {
             var conf = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -39,8 +54,7 @@ namespace Hawk.Demo
                 .Build();
 
             AppSettings settings = new AppSettings(conf);
-
-          
+         
 
            ILoggerRepository repository = LogManager.CreateRepository("NETCoreRepository");
             // 默认简单配置，输出至控制台
