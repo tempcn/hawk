@@ -105,7 +105,7 @@ qzgvdCh8OOkFU799oIE=</D></RSAKeyValue>";
             Console.Read();
         }
 
-        static void Main()
+        static void Main999()
         {
             int p = 61; int q = 53;//两个不相等的质数
             int n = p * q;//3233

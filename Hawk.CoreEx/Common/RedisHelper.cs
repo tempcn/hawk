@@ -15,11 +15,11 @@ namespace Hawk.Common
 
         // static ConnectionMultiplexer Instance = Singleton<ConnectionMultiplexer>.Instance;
 
-#if NET40 || NET45 ||NET452 || NET46
-        public static string Config { get; set; } = ConfigurationManager.ConnectionStrings["redis"].ConnectionString;
-#else
-       public static string Config { get; set; }
-#endif
+//#if NET40 || NET45 ||NET452 || NET46
+         static string Config { get; set; } = ConfigurationManager.ConnectionStrings["redis"].ConnectionString;
+//#else
+//       public static string Config { get; set; }
+//#endif
         static readonly object _lock = new object();
         static ConnectionMultiplexer _instance;
         public static ConnectionMultiplexer Instance
@@ -31,7 +31,7 @@ namespace Hawk.Common
                     {
                         if (_instance == null || !_instance.IsConnected)
                         {
-                            Console.WriteLine("创建了一个对象");
+                            //Console.WriteLine("创建了一个对象");
                             _instance = ConnectionMultiplexer.Connect(Config);
                         }
                     }

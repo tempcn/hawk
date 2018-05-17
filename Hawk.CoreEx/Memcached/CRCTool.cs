@@ -126,7 +126,7 @@ namespace Hawk.MemCached
         /// you should use the table functions. Since they use precalculated values, which 
         /// saves some calculating.
         /// </summary>.
-#if NET40 
+#if !(NETSTANDARD2_0 || NETCOREAPP2_0)
         [CLSCompliant(false)]
 #endif
         public ulong crctablefast (byte[] p) 
@@ -161,7 +161,7 @@ namespace Hawk.MemCached
             return(crc);
         }
 
-#if NET40
+#if !(NETSTANDARD2_0 || NETCOREAPP2_0)
         [CLSCompliant(false)]
 #endif
         public ulong crctable (byte[] p) 
@@ -212,7 +212,7 @@ namespace Hawk.MemCached
             return(crc);
         }
 
-#if NET40
+#if !(NETSTANDARD2_0 || NETCOREAPP2_0)
         [CLSCompliant(false)]
 #endif
         public ulong crcbitbybit(byte[] p) 
@@ -264,7 +264,7 @@ namespace Hawk.MemCached
             return(crc);
         }
 
-#if NET40
+#if !(NETSTANDARD2_0 || NETCOREAPP2_0)
         [CLSCompliant(false)]
 #endif
         public ulong crcbitbybitfast(byte[] p) 
@@ -308,7 +308,7 @@ namespace Hawk.MemCached
         /// It is included to demonstrate that although it looks different it is the same 
         /// routine as the crcbitbybit* functions. But it is optimized and preconfigured for CRCITT.
         /// </summary>
-#if NET40
+#if !(NETSTANDARD2_0 || NETCOREAPP2_0)
         [CLSCompliant(false)]
 #endif
         public ushort CalcCRCITT(byte[] p)

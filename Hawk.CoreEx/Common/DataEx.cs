@@ -5,38 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.Common;
+using System.Reflection;
 
-#if NET40 || NET45 || NET452 || NET46
+//#if NET40 || NET45 || NET452 || NET46
 using System.Configuration;
-#endif
+//#endif
 using Dapper;
 
 namespace Hawk.Common
 {
     public class DataEx//<T> where T:class
     {
-#if NET40 || NET45 || NET452
-        public static string ConnectionString { get; } = ConfigurationManager.ConnectionStrings[ConfigurationManager.ConnectionStrings.Count - 1].ConnectionString;
-#else
-            public static string ConnectionString { get;set; } 
-#endif
+//#if NET40 || NET45 || NET452
+        static string ConnectionString { get; } = ConfigurationManager.ConnectionStrings[ConfigurationManager.ConnectionStrings.Count - 1].ConnectionString;
+        //#else
+        //            public static string ConnectionString { get;set; } 
+        //#endif
 
-#if !(NET40 || NET45 || NET452)
+#if NETSTANDARD2_0 || NETCOREAPP2_0 // !(NET40 || NET45 || NET452)
         public static string AssemblyName { get; set; }
         public static string FullName { get; set; }
+        internal class Delay
+        {
+            internal static readonly DbProviderFactory _instance =
+               (DbProviderFactory)(Assembly.Load(AssemblyName).CreateInstance(FullName));
+        }
 #endif
         static DbProviderFactory Factory
         {
             get
             {
-#if NET40 || NET45 || NET452
+#if NET452
                 return DbProviderFactories.GetFactory(ConfigurationManager.ConnectionStrings[ConfigurationManager.ConnectionStrings.Count - 1].ProviderName);
 #else
                 //return RefectHelper.CreateInstance<T>(AssemblyName, FullName) as DbProviderFactory;
-                return RefectHelper.CreateInstance<DbProviderFactory>(AssemblyName, FullName);
+                return Delay._instance;
 #endif
             }
-        }
+        }       
 
         // public static IDbConnection Connection { get; } = Factory.CreateConnection();
 

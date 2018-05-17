@@ -56,7 +56,7 @@ namespace ConsoleApp1
                 //Task.Run(() => Run());
             }
 
-            Console.WriteLine(RedisHelper.Config);
+            //Console.WriteLine(RedisHelper.Config);
             Console.Read();
         }
         static void Run()

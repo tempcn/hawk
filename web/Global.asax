@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Hawk.Example.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Hawk.Exp.Global" Language="C#" %>

@@ -1,39 +1,64 @@
 ﻿using System;
+using log4net;
+using log4net.Repository;
+using log4net.Config;
+using System.IO;
 
 namespace Hawk.Common
 {
     public class LogHelper
     {
-       static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(LogHelper));
-
-        public static void Info(string s, Exception ex = null)
+        static ILoggerRepository repo = LogManager.CreateRepository(nameof(LogHelper));
+        static string config = AppDomain.CurrentDomain.BaseDirectory + "Config\\log4net.config";
+        static LogHelper()
         {
-            if (logger.IsInfoEnabled)
+            if (File.Exists(config))
+                XmlConfigurator.Configure(repo, new FileInfo(config));
+            else
             {
-                logger.Info(s, ex);
+                //XmlConfigurator.Configure(repo);
+                BasicConfigurator.Configure(repo);
             }
         }
 
-        public static void Info(string s, params object[] args)
+        static ILog GetLogger(string name = nameof(LogHelper))
+        => LogManager.GetLogger(repo.Name, string.IsNullOrEmpty(name) ? nameof(LogHelper) : name);
+
+
+        //static ILog logger = LogManager.GetLogger(repo.Name, typeof(LogHelper));
+
+        public static void Info(string s, string name = null, Exception ex = null)
         {
-            if (logger.IsInfoEnabled)
+            ILog log = GetLogger(name);
+            if (log.IsInfoEnabled)
             {
-                logger.InfoFormat(s, args);
+                log.Info(s, ex);
             }
         }
 
-        public static void Error(string s,  Exception ex = null)
+        public static void Info(string s, string name = null, params object[] args)
         {
-            if (logger.IsErrorEnabled)
+            ILog log = GetLogger(name);
+            if (log.IsInfoEnabled)
             {
-                logger.Error(s, ex);
+                log.InfoFormat(s, args);
             }
         }
-        public static void Error(string s, params object[] args)
+
+        public static void Error(string s, string name = null, Exception ex = null)
         {
-            if (logger.IsErrorEnabled)
+            ILog log = GetLogger(name);
+            if (log.IsErrorEnabled)
             {
-                logger.ErrorFormat(s, args);
+                log.Error(s, ex);
+            }
+        }
+        public static void Error(string s, string name = null, params object[] args)
+        {
+            ILog log = GetLogger(name);
+            if (log.IsErrorEnabled)
+            {
+                log.ErrorFormat(s, args);
             }
         }
     }

@@ -6,7 +6,7 @@
     <Authors>hawk</Authors>
     <Company>jinyan</Company>
     <Copyright>JinYan 2018,Inc.</Copyright>
-    <Version>1.0.1-alpha2</Version>
+    <Version>1.0.3-alpha2</Version>
     <Product>基础库</Product>
   </PropertyGroup>
 
@@ -18,5 +18,9 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\Lib\</OutputPath>
-  </PropertyGroup>  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>  
 </Project>

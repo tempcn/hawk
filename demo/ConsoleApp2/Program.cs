@@ -3,17 +3,18 @@ using Hawk;
 using Hawk.Common;
 using System.Collections.Generic;
 using System.Linq;
-using MySql.Data.MySqlClient;
 using System.IO;
 using log4net;
 using log4net.Repository;
 using log4net.Config;
+using Newtonsoft.Json;
+using System.Configuration;
 
 namespace ConsoleApp2
 {
     class Program
     {
-        static void Main()
+        static void Main4()
         {
             string repoName = "NetCoreRepo";
             ILoggerRepository repo = LogManager.CreateRepository(repoName);
@@ -31,13 +32,29 @@ namespace ConsoleApp2
         }
             
 
-        static void Main2(string[] args)
+        static void Main(string[] args)
         {
-            //DataEx<MySqlClientFactory>.ConnectionString = "server=localhost;port=3307;user id=root;pwd=mysql;database=sports;sslmode=none;pooling=true;Charset=utf8";
-            //DataEx<MySqlClientFactory>.AssemblyName = "mysql.data";
-            //DataEx<MySqlClientFactory>.FullName = "MySql.Data.MySqlClient.MySqlClientFactory";
+            //string repoName = "NetCoreRepo";
+            //ILoggerRepository repo = LogManager.CreateRepository(repoName);
+            //BasicConfigurator.Configure(repo);
+            //log4net.ILog logger = log4net.LogManager.GetLogger(repo.Name, "NetCore");
 
-            DataEx.ConnectionString = "server=localhost;port=3307;user id=root;pwd=mysql;database=sports;sslmode=none;pooling=true;Charset=utf8";
+            //XmlConfigurator.Configure(repo, new FileInfo("log4net.config"));
+
+            LogHelper.Info("我能说什么呢", "xdf");
+            LogHelper.Error("这是一个错误");
+            LogHelper.Error("这是一个错误", "xer");
+
+            string root = AppDomain.CurrentDomain.BaseDirectory;
+
+            Console.WriteLine(root);
+
+            var c = ConfigurationManager.AppSettings["ask"];
+            var c2 = ConfigurationManager.ConnectionStrings["nihao"].ConnectionString;
+
+            Console.WriteLine(c);
+            Console.WriteLine(c2);
+
             DataEx.AssemblyName = "mysql.data";
             DataEx.FullName = "MySql.Data.MySqlClient.MySqlClientFactory";
 
@@ -58,13 +75,56 @@ namespace ConsoleApp2
             int count = roles.Count();
 
             Console.WriteLine(count);
+            IDictionary<string, Privilege> dict = new Dictionary<string, Privilege>(StringComparer.OrdinalIgnoreCase);
 
-            //System.Data.Common.DbProviderFactory x =
-            //  (System.Data.Common.DbProviderFactory)  RefectHelper.CreateInstance<MySqlClientFactory>("mysql.data", "MySql.Data.MySqlClient.MySqlClientFactory");
+            foreach (var item in roles)
+            {
+                var menuName = item.MenuName;//.ToLower();//转换为小写
 
-            //System.Data.Common.DbConnection conn = x.CreateConnection();
+                IList<Operate> pp = GetPermission(item.Privilege);
 
+                //var dd = pp.Sum(x => (int)x);
 
+                if (dict.ContainsKey(menuName))
+                {
+                    dict[menuName].Permission =
+                        dict[menuName].Permission.Concat(pp).Distinct();
+
+                    dict[menuName].Power = dict[menuName].Permission.Sum(x => (int)x);
+                }
+                else
+                    dict[menuName] = new Privilege()
+                    {
+                        MenuName = menuName,
+                        Power = item.Power,
+                        Permission = pp
+                    };
+            }
+
+            foreach (var d in dict)
+            {
+                Console.WriteLine("拥有的权限菜单是:{0}", d.Key);
+                Console.WriteLine(JsonConvert.SerializeObject(d.Value));
+            }
+
+            Console.Read();
+        }
+
+        public static IList<Operate> GetPermission(string p)
+        {
+            IList<Operate> pp = new List<Operate>();
+
+            if (!string.IsNullOrEmpty(p))
+            {
+                var s = p.Split('#'); int i;
+                foreach (var item in s)
+                {
+                    if (int.TryParse(item, out i))
+                        if (!pp.Contains((Operate)i))
+                            pp.Add((Operate)i);
+                }
+            }
+            return pp;
         }
     }
 }

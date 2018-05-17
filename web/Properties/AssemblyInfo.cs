@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过下列特性集
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Hawk.Example")]
+[assembly: AssemblyTitle("Hawk.Exp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Hawk.Example")]
+[assembly: AssemblyProduct("Hawk.Exp")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于 typelib 的 ID
-[assembly: Guid("20ab1863-32be-4779-a2aa-38f9bf75b7cf")]
+[assembly: Guid("293b7e6c-b51b-4e14-8dd4-08a7ef8697f7")]
 
 // 程序集的版本信息由下列四个值组成:
 //

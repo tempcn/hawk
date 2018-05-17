@@ -9,7 +9,7 @@ namespace Hawk.SharpZipLib.Encryption
 	internal class ZipAESTransform : ICryptoTransform
 	{
 
-#if NET40 || NET45 || NET452 || NET46
+#if !(NETSTANDARD2_0 || NETCOREAPP2_0)//NET40 || NET45 || NET452 || NET46
 		class IncrementalHash : HMACSHA1
 		{
 			bool _finalised;
@@ -34,7 +34,7 @@ namespace Hawk.SharpZipLib.Encryption
 		}
 #endif
 
-		private const int PWD_VER_LENGTH = 2;
+        private const int PWD_VER_LENGTH = 2;
 
 		// WinZip use iteration count of 1000 for PBKDF2 key generation
 		private const int KEY_ROUNDS = 1000;
