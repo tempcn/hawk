@@ -31,9 +31,9 @@ namespace Hawk.Exp.Controllers
             IEnumerable<UserRole> roles = DataEx.Get<UserRole>(sql);
             stopwatch.Stop();
 
-            LogHelper.Info(sql);
+            LogHelper.Info(sql,"loghelp");
 
-           // log.Info(sql);
+            log.Info(sql);
 
             return Json(roles,JsonRequestBehavior.AllowGet);
 

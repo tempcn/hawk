@@ -8,18 +8,29 @@ namespace Hawk.Common
 {
     public class LogHelper
     {
-        static ILoggerRepository repo = LogManager.CreateRepository(nameof(LogHelper));
-        static string config = AppDomain.CurrentDomain.BaseDirectory + "Config\\log4net.config";
+        public static ILoggerRepository repo = LogManager.CreateRepository(nameof(LogHelper));
+
+        static string Root = AppDomain.CurrentDomain.BaseDirectory;
+
         static LogHelper()
         {
-            if (File.Exists(config))
-                XmlConfigurator.Configure(repo, new FileInfo(config));
+            //if (File.Exists(Root + "log4net.config"))
+            //    Configure(Root + "log4net.config");
+            //else if (File.Exists(Root + "log4net"))
+            //    Configure(Root + "log4net");
+            //else if (File.Exists(Root + "config\\log4net.config"))
+            //    Configure(Root + "config\\log4net.config");
+            if (File.Exists("log4net.config"))
+                XmlConfigurator.Configure(repo, new FileInfo("log4net.config"));
             else
             {
                 //XmlConfigurator.Configure(repo);
                 BasicConfigurator.Configure(repo);
             }
         }
+
+        static void Configure(string file)
+            => XmlConfigurator.Configure(repo, new FileInfo(file));
 
         static ILog GetLogger(string name = nameof(LogHelper))
         => LogManager.GetLogger(repo.Name, string.IsNullOrEmpty(name) ? nameof(LogHelper) : name);

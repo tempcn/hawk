@@ -38,8 +38,11 @@ namespace ConsoleApp2
             //ILoggerRepository repo = LogManager.CreateRepository(repoName);
             //BasicConfigurator.Configure(repo);
             //log4net.ILog logger = log4net.LogManager.GetLogger(repo.Name, "NetCore");
-
+           
             //XmlConfigurator.Configure(repo, new FileInfo("log4net.config"));
+            //logger.Info("控制台的日志");
+
+ 
 
             LogHelper.Info("我能说什么呢", "xdf");
             LogHelper.Error("这是一个错误");

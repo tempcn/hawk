@@ -133,7 +133,6 @@
     <Content Include="Views\web.config" />
     <Content Include="Config\Log4net.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
