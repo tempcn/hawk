@@ -117,7 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -145,16 +147,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Home\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Hawk.CoreEx\Hawk.CoreEx.csproj">
-      <Project>{490be54d-fd82-4e61-86c4-f0eb652bb20d}</Project>
-      <Name>Hawk.CoreEx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hawk.Core\Hawk.Core.csproj">
-      <Project>{ffa93f71-3023-4311-b519-3f671faafce9}</Project>
-      <Name>Hawk.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
